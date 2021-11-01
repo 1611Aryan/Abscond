@@ -162,10 +162,10 @@ const StyledSocial = styled.div`
     .icons {
       width: 50%;
     }
-  }
-  picture {
-    width: 35%;
-    transform: rotate(10deg);
+    picture {
+      width: 35%;
+      transform: rotate(10deg);
+    }
   }
 `
 export default Social
