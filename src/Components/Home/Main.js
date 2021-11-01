@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import anime_png from "./image.png"
-import anime_webp from "./image.webp"
-import anime_jpg from "./image.jpg"
+
+import anime_webp from "./../../Media/Home/main.webp"
+import anime_png from "./../../Media/Home/main.png"
 
 function Main() {
   return (
@@ -18,7 +18,7 @@ function Main() {
           </div>
           <div className="loginButton">
             <a className="cta" href="google.com">
-              <button class="buttonTwo">Login</button>
+              <button className="buttonTwo">Login</button>
             </a>
           </div>
         </div>
@@ -26,10 +26,10 @@ function Main() {
         <span className="dot"></span>
 
         <picture>
-          <source srcSet={anime_webp} alt="Tanjaro"></source>
-          <source srcSet={anime_png} alt="Tanjaro"></source>
+          <source srcSet={anime_webp} type="image/webp" />
+          <source srcSet={anime_png} type="image/png" />
 
-          <img src={anime_jpg} alt="Tanjaro" />
+          <img src={anime_png} alt="Tanjaro" />
         </picture>
       </div>
     </StyledMain>

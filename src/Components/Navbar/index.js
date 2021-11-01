@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import logo from "./logo2.png"
+import logo from "./../../Media/iiche_logo.png"
 
 function Navbar() {
   return (

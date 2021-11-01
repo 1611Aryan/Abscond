@@ -5,8 +5,8 @@ import { BsFacebook } from "react-icons/bs"
 import { BsLinkedin } from "react-icons/bs"
 import { AiFillPhone } from "react-icons/ai"
 import { AiFillMail } from "react-icons/ai"
-import dog_webp from "./dog.webp"
-import dog_png from "./dog.png"
+import dog_webp from "./../../Media/Home/dog.webp"
+import dog_png from "./../../Media/Home/dog.png"
 
 function Social() {
   return (
@@ -55,7 +55,8 @@ function Social() {
         </a>
       </div>
       <picture>
-        <source srcSet={dog_webp} alt="dog"></source>
+        <source srcSet={dog_webp} type="image/webp" />
+        <source srcSet={dog_png} type="image/png" />
         <img src={dog_png} alt="dog" />
       </picture>
     </StyledSocial>

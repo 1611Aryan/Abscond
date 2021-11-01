@@ -1,9 +1,9 @@
 import styled from "styled-components"
-import Main from "../Components/Main"
-import Navbar from "../Components/Navbar"
-import Prizes from "../Components/Prizes"
-import Social from "../Components/Social"
-import Sponsors from "../Components/Sponsors"
+import Navbar from "./../Components/Navbar"
+import Main from "./../Components/Home/Main"
+import Prizes from "./../Components/Home/Prizes"
+import Sponsors from "./../Components/Home/Sponsors"
+import Social from "./../Components/Home/Social"
 
 const Home = () => {
   return (
