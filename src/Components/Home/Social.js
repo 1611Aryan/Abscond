@@ -91,11 +91,11 @@ const StyledSocial = styled.div`
   align-items: flex-start;
   flex-direction: column;
 
-  padding: 4rem;
+  padding: var(--padding);
 
   h2 {
     font-weight: 500;
-    font-size: 5rem;
+    font-size: clamp(2.5rem, 6vw, 5rem);
   }
   .content {
     display: flex;
@@ -104,34 +104,32 @@ const StyledSocial = styled.div`
 
     .info {
       width: 60%;
-      font-size: 1.5rem;
+      font-size: clamp(0.9rem, 2vw, 1.5rem);
     }
     .contact {
       ul {
         list-style-type: none;
-
         > * + * {
           margin-top: 1rem;
         }
-
         li,
         a {
           display: flex;
           align-items: center;
           justify-content: flex-start;
-          font-size: 1.5rem;
+          font-size: clamp(0.9rem, 2vw, 1.5rem);
           display: flex;
           align-items: center;
           svg {
-            font-size: 2.5rem;
-            margin-right: 1rem;
+            font-size: clamp(2rem, 3vw, 2.5rem);
+            margin-right: clamp(0.5rem, 1vw, 1rem);
           }
         }
       }
     }
   }
   .icons {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
 
     display: flex;
     justify-content: space-between;
@@ -148,6 +146,21 @@ const StyledSocial = styled.div`
       display: block;
       width: 100%;
       object-fit: cover;
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .content {
+      flex-direction: column;
+      .info {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      .contact {
+      }
+    }
+    .icons {
+      width: 50%;
     }
   }
 `

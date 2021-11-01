@@ -58,12 +58,12 @@ const StyledNav = styled.header`
       align-items: center;
       justify-content: flex-start;
       li {
-        font-size: clamp(0.5rem, 2vw, 1.1rem);
+        font-size: clamp(0.7rem, 2vw, 1.1rem);
         margin-right: clamp(0.5rem, 2vw, 2rem);
       }
     }
     button {
-      font-size: clamp(0.6rem, 2vw, 1.1rem);
+      font-size: clamp(0.7rem, 2vw, 1.1rem);
       padding: clamp(0.2rem, 1vw, 0.5rem) clamp(0.4rem, 1vw, 0.75rem);
       background-color: white;
       border: none;
