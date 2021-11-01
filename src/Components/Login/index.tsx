@@ -83,14 +83,17 @@ const StyledLogin = styled.section`
       border-radius: 50%;
     }
 
+    > * + * {
+      margin-top: 1rem;
+    }
+
     .inputContainer {
       z-index: 2;
-      margin-top: 1rem;
       width: 100%;
     }
 
     label {
-      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-size: clamp(1.3rem, 2vw, 1.5rem);
     }
 
     input {
@@ -98,7 +101,7 @@ const StyledLogin = styled.section`
       width: 100%;
 
       padding: clamp(0.2rem, 1vw, 0.4rem);
-      font-size: clamp(0.9rem, 1vw, 1rem);
+      font-size: 1.1rem;
       font-family: inherit;
       transition: all 0.1s;
 
@@ -109,10 +112,10 @@ const StyledLogin = styled.section`
 
     button {
       z-index: 2;
-      margin-top: 1rem;
+
       padding: clamp(0.4rem, 1vw, 0.6rem) clamp(1rem, 1vw, 1.25rem);
 
-      font-size: clamp(1rem, 1vw, 1.2rem);
+      font-size: 1.2rem;
       background: #5f74e0;
       color: #fff;
       transition: all ease 0.2s;
@@ -125,13 +128,14 @@ const StyledLogin = styled.section`
 
   @media only screen and (max-width: 500px) {
     form {
-      width: 85%;
-      height: 45%;
+      border-radius: 10px;
+      width: 90%;
+      height: 42%;
       .circle1 {
-        --size: 200px;
+        --size: 175px;
       }
       .circle2 {
-        --size: 150px;
+        --size: 100px;
       }
     }
   }
