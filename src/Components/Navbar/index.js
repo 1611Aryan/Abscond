@@ -58,12 +58,13 @@ const StyledNav = styled.header`
       align-items: center;
       justify-content: flex-start;
       li {
-        font-size: 1rem;
+        font-size: 1.1rem;
         margin-right: 2rem;
       }
     }
     button {
-      padding: 9px 25px;
+      font-size: 1rem;
+      padding: 0.5rem 0.75rem;
       background-color: white;
       border: none;
       border-radius: 2px;

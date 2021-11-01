@@ -24,14 +24,10 @@ const StyledSponsors = styled.div`
   position: relative;
   overflow: hidden;
 
-  .heading {
-    position: absolute;
-    top: 10%;
-    h2 {
-      margin-left: 4rem;
-      font-size: 5rem;
-      font-weight: 500;
-    }
+  h2 {
+    margin: 4rem;
+    font-size: 5rem;
+    font-weight: 500;
   }
 
   picture {
@@ -44,7 +40,6 @@ const StyledSponsors = styled.div`
     }
   }
   .color1 {
-    // overflow:hidden;
     position: absolute;
     width: 500px;
     height: 500px;

@@ -11,9 +11,8 @@ import dog_png from "./../../Media/Home/dog.png"
 function Social() {
   return (
     <StyledSocial>
-      <div className="heading">
-        <h2>Let's Talk</h2>
-      </div>
+      <h2>Let's Talk</h2>
+
       <div className="content">
         <div className="info">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit unde
@@ -22,35 +21,56 @@ function Social() {
           placeat enim, id fuga asperiores commodi labore excepturi eos.
         </div>
         <div className="contact">
-          <ul className="number-contact">
+          <ul>
             <li>
-              <AiFillPhone className="phone"></AiFillPhone>Parth : +917986810284
+              <AiFillPhone className="phone" />
+              <span> Parth : +917986810284</span>
             </li>
+
             <li>
-              <AiFillMail className="call"></AiFillMail>iiche.tiet@gmail.com
+              <a href="mailto:  iiche.tiet@gmail.com">
+                <AiFillMail className="call" />
+                <span> iiche.tiet@gmail.com</span>
+              </a>
             </li>
           </ul>
         </div>
       </div>
       <div className="icons">
-        <a href="https://www.instagram.com/iiche.tiet/">
+        <a
+          href="https://www.instagram.com/iiche.tiet/"
+          target="_blank"
+          rel="noreferrer"
+        >
           <div className="group">
-            <BsInstagram className="Instagram"></BsInstagram>
+            <BsInstagram className="Instagram" />
           </div>
         </a>
-        <a href="https://twitter.com/IIChE_TIET">
+        <a
+          href="https://twitter.com/IIChE_TIET"
+          target="_blank"
+          rel="noreferrer"
+        >
           <div className="group">
-            <BsTwitter className="Twitter"></BsTwitter>
+            <BsTwitter className="Twitter" />
           </div>
         </a>
-        <a href="https://www.facebook.com/iiche.tiet">
+        <a
+          href="https://www.facebook.com/iiche.tiet"
+          target="_blank"
+          rel="noreferrer"
+        >
           <div className="group">
-            <BsFacebook className="Facebook"></BsFacebook>
+            <BsFacebook className="Facebook" />
           </div>
         </a>
-        <a href="https://www.linkedin.com/company/indian-institute-of-chemical-engineers-iiche-tiet/mycompany/">
+        <a
+          href="https://www.linkedin.com/company/indian-institute-of-chemical-engineers-iiche-tiet/mycompany/"
+          target="_blank"
+          rel="noreferrer"
+        >
           <div className="group">
-            <BsLinkedin className="Linkedin"></BsLinkedin>
+            <BsLinkedin className="Linkedin" />
           </div>
         </a>
       </div>
@@ -67,20 +87,17 @@ const StyledSocial = styled.div`
   height: 100vh;
   display: flex;
   position: relative;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-start;
   flex-direction: column;
 
   padding: 4rem;
 
-  .heading {
-  }
   h2 {
     font-weight: 500;
     font-size: 5rem;
   }
   .content {
-    margin-top: 7rem;
     display: flex;
     justify-content: space-between;
     box-sizing: margin-box;
@@ -90,18 +107,24 @@ const StyledSocial = styled.div`
       font-size: 1.5rem;
     }
     .contact {
-      .number-contact {
+      ul {
         list-style-type: none;
-        li {
-          font-size: 1.75rem;
-          line-height: 1.5;
+
+        > * + * {
+          margin-top: 1rem;
+        }
+
+        li,
+        a {
           display: flex;
           align-items: center;
-          .call,
-          .phone {
-            font-size: 4rem;
-            font-weight: 500;
-            margin-right: 1.5rem;
+          justify-content: flex-start;
+          font-size: 1.5rem;
+          display: flex;
+          align-items: center;
+          svg {
+            font-size: 2.5rem;
+            margin-right: 1rem;
           }
         }
       }
@@ -110,7 +133,6 @@ const StyledSocial = styled.div`
   .icons {
     font-size: 2rem;
 
-    margin-top: 4rem;
     display: flex;
     justify-content: space-between;
     width: 20%;
@@ -123,6 +145,7 @@ const StyledSocial = styled.div`
     overflow: hidden;
 
     img {
+      display: block;
       width: 100%;
       object-fit: cover;
     }

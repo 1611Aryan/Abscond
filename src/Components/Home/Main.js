@@ -6,98 +6,87 @@ import anime_png from "./../../Media/Home/main.png"
 function Main() {
   return (
     <StyledMain>
-      <div className="firstPageWithImage">
-        <div className="content">
-          <div className="eventName">Abscond</div>
-          <div className="eventDescription">
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Praesentium, temporibus perspiciatis. Commodi fuga veniam
-              excepturi blanditiis iure eaque, perspiciatis necessitatibus.
-            </p>
-          </div>
-          <div className="loginButton">
-            <a className="cta" href="google.com">
-              <button className="buttonTwo">Login</button>
-            </a>
-          </div>
-        </div>
+      <div className="content">
+        <h1>Abscond</h1>
 
-        <span className="dot"></span>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium,
+          temporibus perspiciatis. Commodi fuga veniam excepturi blanditiis iure
+          eaque, perspiciatis necessitatibus.
+        </p>
 
-        <picture>
-          <source srcSet={anime_webp} type="image/webp" />
-          <source srcSet={anime_png} type="image/png" />
-
-          <img src={anime_png} alt="Tanjaro" />
-        </picture>
+        <button>Login</button>
       </div>
+
+      <span className="circle"></span>
+
+      <picture>
+        <source srcSet={anime_webp} type="image/webp" />
+        <source srcSet={anime_png} type="image/png" />
+        <img src={anime_png} alt="Tanjaro" />
+      </picture>
     </StyledMain>
   )
 }
 
-const StyledMain = styled.div`
+const StyledMain = styled.section`
   width: 100%;
   position: relative;
 
-  // overflow-x : hidden ;
-  .firstPageWithImage {
-    width: 100%;
-    height: 90vh;
-  }
+  height: 90vh;
 
   .content {
     width: 50%;
     height: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
+    align-items: flex-start;
     justify-content: center;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
     margin-left: 4rem;
-    gap: 1rem;
+    line-height: 1.2;
+
+    > * + * {
+      margin-top: 1.25rem;
+    }
+
+    h1 {
+      font-weight: 500;
+      font-size: 4rem;
+    }
+
+    p {
+      font-size: 1.75rem;
+      z-index: 2;
+    }
+
+    button {
+      border: 0;
+      padding: 0.5rem 1.25rem;
+      font-size: 1.25rem;
+      background-color: white;
+
+      border-radius: 2px;
+
+      cursor: pointer;
+      transition: all 0.2s;
+      :hover {
+        background: #0004;
+        outline: 2px solid #fff;
+        color: #fff;
+      }
+    }
   }
 
-  .eventName {
-    font-size: 4rem;
-  }
-
-  .eventDescription {
-    font-size: 1.75rem;
-    z-index: 2;
-  }
-
-  .loginButton {
-    text-decoration: none;
-    font-size: 2rem;
-  }
-
-  .dot {
+  .circle {
     position: absolute;
     top: 50%;
     right: 0;
-    -webkit-transform: translateY(-50%);
+
     transform: translateY(-50%);
     height: 460px;
     width: 460px;
     background-color: #57c39e88;
     border-radius: 50%;
-  }
-
-  .firstPageWithImage {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-  }
-
-  .firstPage {
-    display: inline-block;
-    width: 50px;
   }
 
   picture {
@@ -109,27 +98,6 @@ const StyledMain = styled.div`
       width: 100%;
       object-fit: cover;
     }
-  }
-
-  .temp {
-    font-size: 5rem;
-  }
-
-  .buttonTwo {
-    padding: 9px 25px;
-    background-color: white;
-    border: none;
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
-    -webkit-transition: all 0.1s;
-    transition: all 0.1s;
-  }
-
-  .cta :hover {
-    background: transparent;
-    outline: 2px solid #fff;
-    color: #fff;
   }
 `
 
