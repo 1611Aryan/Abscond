@@ -6,15 +6,13 @@ import anime_png from "./../../Media/Home/prizes.png"
 function Prizes() {
   return (
     <StyledPrizes>
-      <div className="color1"></div>
       <picture>
         <source srcSet={anime_webp} type="image/webp" />
         <source srcSet={anime_png} type="image/png" />
         <img src={anime_png} alt="anime_character" />
       </picture>
-
+      <div className="color1"></div>
       <h2>Prizes</h2>
-
       <div className="prize">
         <div className="head">
           <h3>FIRST</h3>
@@ -35,11 +33,15 @@ function Prizes() {
 const StyledPrizes = styled.div`
   width: 100%;
   height: 100vh;
+
+  overflow: hidden;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-start;
   flex-direction: column;
+
+  --left: 35%;
 
   .color1 {
     border-radius: 50%;
@@ -58,36 +60,40 @@ const StyledPrizes = styled.div`
     left: 0;
     width: 18%;
     img {
+      display: block;
       width: 100%;
       object-fit: cover;
     }
   }
 
   h2 {
+    width: 100%;
+    z-index: 2;
     color: #000;
-    margin-left: 35%;
+    padding: 0 var(--left);
     font-weight: 500;
-    font-size: 5rem;
+    font-size: clamp(3rem, 5vw, 5rem);
   }
 
   .prize {
-    margin-top: 4rem;
-    margin-left: 35%;
+    z-index: 2;
 
-    width: calc(100% - 35% - 4rem);
+    margin-left: var(--left);
+
+    width: calc(100% - var(--left) - var(--padding));
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .head {
-      width: 30%;
+      width: 32%;
       height: 17rem;
 
       background-color: #f3c4f4;
       text-align: center;
 
       border-radius: 10px;
-      font-size: 2rem;
+      font-size: clamp(1rem, 3vw, 2rem);
 
       display: flex;
       justify-content: space-evenly;
@@ -106,7 +112,38 @@ const StyledPrizes = styled.div`
         justify-content: center;
         align-items: center;
         border-radius: 10px;
-        font-size: 1.75rem;
+        font-size: clamp(1rem, 2vw, 1.75rem);
+      }
+    }
+  }
+  @media only screen and (max-width: 500px) {
+    --left: var(--padding);
+    justify-content: center;
+
+    picture {
+      top: auto;
+      bottom: 5%;
+      width: 65%;
+    }
+
+    .color1 {
+      top: 60%;
+      transform: translateY(-50%);
+      left: 1%;
+      width: 350px;
+      height: 350px;
+    }
+    h2 {
+      text-align: right;
+    }
+    .prize {
+      margin-top: 2rem;
+      justify-content: space-between;
+      align-items: center;
+
+      .head {
+        width: 30%;
+        height: 8rem;
       }
     }
   }

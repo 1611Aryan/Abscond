@@ -18,8 +18,11 @@ const Home = () => {
 }
 
 const StyledHome = styled.main`
+  width: 100%;
+
   background: linear-gradient(to bottom, #9c99ef, #fac7d5);
   height: 400vh;
+  overflow: hidden;
 `
 
 export default Home

@@ -14,7 +14,8 @@ body{
 width:100%;
 font-family: poppins,sans-serif;
 
---padding:2rem;
+overflow-x: hidden;
+--padding:clamp(1.5rem, 5vw, 4rem);
 }
 
 

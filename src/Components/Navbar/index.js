@@ -30,7 +30,7 @@ const StyledNav = styled.header`
 
   overflow: hidden;
 
-  padding: 0 4rem;
+  padding: 0 var(--padding);
 
   .alpha {
     cursor: pointer;
@@ -38,13 +38,13 @@ const StyledNav = styled.header`
     align-items: center;
 
     img {
-      width: 3rem;
+      width: clamp(1.5rem, 3vw, 3rem);
       height: auto;
       object-fit: cover;
     }
     h1 {
-      margin-left: 1rem;
-      font-size: 1.75rem;
+      margin-left: clamp(0.5rem, 2vw, 1rem);
+      font-size: clamp(0.9rem, 3vw, 1.75rem);
       font-weight: 400;
     }
   }
@@ -58,13 +58,13 @@ const StyledNav = styled.header`
       align-items: center;
       justify-content: flex-start;
       li {
-        font-size: 1.1rem;
-        margin-right: 2rem;
+        font-size: clamp(0.5rem, 2vw, 1.1rem);
+        margin-right: clamp(0.5rem, 2vw, 2rem);
       }
     }
     button {
-      font-size: 1rem;
-      padding: 0.5rem 0.75rem;
+      font-size: clamp(0.6rem, 2vw, 1.1rem);
+      padding: clamp(0.2rem, 1vw, 0.5rem) clamp(0.4rem, 1vw, 0.75rem);
       background-color: white;
       border: none;
       border-radius: 2px;
