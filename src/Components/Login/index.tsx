@@ -51,6 +51,8 @@ const StyledLogin = styled.section`
   form {
     position: relative;
 
+    overflow: hidden;
+
     width: 50%;
     height: 60%;
     background: #00a8dd;
@@ -93,7 +95,7 @@ const StyledLogin = styled.section`
     }
 
     label {
-      font-size: clamp(1.3rem, 2vw, 1.5rem);
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
     }
 
     input {
@@ -135,7 +137,7 @@ const StyledLogin = styled.section`
         --size: 175px;
       }
       .circle2 {
-        --size: 100px;
+        --size: 125px;
       }
     }
   }
