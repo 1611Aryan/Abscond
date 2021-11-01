@@ -163,5 +163,9 @@ const StyledSocial = styled.div`
       width: 50%;
     }
   }
+  picture {
+    width: 35%;
+    transform: rotate(10deg);
+  }
 `
 export default Social
