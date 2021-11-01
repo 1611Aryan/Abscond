@@ -1,31 +1,52 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 
 const Login: React.FC<{
   setLoginVis: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ setLoginVis }) => {
-  const closeModal = () => {
-    setLoginVis(false)
-  }
+  const [input, setInput] = useState({
+    guild: "",
+    password: "",
+  })
 
-  const dontClose = (e: React.MouseEvent) => {
-    e.stopPropagation()
+  const closeModal = () => setLoginVis(false)
+
+  const dontClose = (e: React.MouseEvent) => e.stopPropagation()
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setInput(input => ({ ...input, [e.target.name]: e.target.value }))
+
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
   }
 
   return (
     <StyledLogin onClick={closeModal}>
-      <form onClick={dontClose}>
+      <form onClick={dontClose} onSubmit={submitHandler}>
         <div className="circle1"></div>
         <div className="circle2"></div>
         <div className="inputContainer">
           <label htmlFor="guild">Guild Name</label>
           <br />
-          <input type="text" name="guild" autoFocus required />
+          <input
+            type="text"
+            name="guild"
+            autoFocus
+            required
+            value={input.guild}
+            onChange={changeHandler}
+          />
         </div>
         <div className="inputContainer">
           <label htmlFor="password">Password</label>
           <br />
-          <input type="password" name="password" required />
+          <input
+            type="password"
+            name="password"
+            required
+            value={input.password}
+            onChange={changeHandler}
+          />
         </div>
         <button>Login</button>
       </form>
