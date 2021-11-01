@@ -60,23 +60,25 @@ const StyledLogin = styled.section`
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-evenly;
-    padding: clamp(2rem, 5vw, 4rem) clamp(3rem, 7vw, 6rem);
+    padding: clamp(1.5rem, 5vw, 4rem) clamp(2rem, 7vw, 6rem);
 
     .circle1 {
+      --size: 300px;
       position: absolute;
       top: 20px;
       left: 10px;
-      width: 300px;
-      height: 300px;
+      width: var(--size);
+      height: var(--size);
       background: #64daff;
       border-radius: 50%;
     }
     .circle2 {
+      --size: 250px;
       position: absolute;
       bottom: 20px;
       right: 10px;
-      width: 250px;
-      height: 250px;
+      width: var(--size);
+      height: var(--size);
       background: #64daff;
       border-radius: 50%;
     }
@@ -88,15 +90,15 @@ const StyledLogin = styled.section`
     }
 
     label {
-      font-size: 1.5rem;
+      font-size: clamp(1rem, 3vw, 1.5rem);
     }
 
     input {
       margin-top: 1rem;
       width: 100%;
 
-      padding: 0.4rem;
-      font-size: 1rem;
+      padding: clamp(0.2rem, 1vw, 0.4rem);
+      font-size: clamp(0.9rem, 1vw, 1rem);
       font-family: inherit;
       transition: all 0.1s;
 
@@ -108,14 +110,28 @@ const StyledLogin = styled.section`
     button {
       z-index: 2;
       margin-top: 1rem;
-      padding: 0.6rem 1.25rem;
-      font-size: 1.2rem;
+      padding: clamp(0.4rem, 1vw, 0.6rem) clamp(1rem, 1vw, 1.25rem);
+
+      font-size: clamp(1rem, 1vw, 1.2rem);
       background: #5f74e0;
       color: #fff;
       transition: all ease 0.2s;
       &:hover {
         background: #fff;
         color: #5f74e0;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    form {
+      width: 85%;
+      height: 45%;
+      .circle1 {
+        --size: 200px;
+      }
+      .circle2 {
+        --size: 150px;
       }
     }
   }

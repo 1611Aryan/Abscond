@@ -10,6 +10,7 @@ box-sizing:border-box;
 
 html{
   scroll-behavior: smooth;
+  user-select: none;
 }
 
 
