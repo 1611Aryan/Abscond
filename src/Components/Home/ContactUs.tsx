@@ -8,9 +8,9 @@ import { AiFillMail } from "react-icons/ai"
 import dog_webp from "./../../Media/Home/dog.webp"
 import dog_png from "./../../Media/Home/dog.png"
 
-function Social() {
+function ContactUs() {
   return (
-    <StyledSocial>
+    <StyledContactUs id="contact_us">
       <h2>Let's Talk</h2>
 
       <div className="content">
@@ -79,10 +79,10 @@ function Social() {
         <source srcSet={dog_png} type="image/png" />
         <img src={dog_png} alt="dog" />
       </picture>
-    </StyledSocial>
+    </StyledContactUs>
   )
 }
-const StyledSocial = styled.div`
+const StyledContactUs = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -168,4 +168,4 @@ const StyledSocial = styled.div`
     }
   }
 `
-export default Social
+export default ContactUs

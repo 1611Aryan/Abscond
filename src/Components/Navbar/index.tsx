@@ -1,27 +1,39 @@
 import styled from "styled-components"
 import logo from "./../../Media/iiche_logo.png"
+import { Link } from "react-router-dom"
 
 function Navbar() {
   return (
     <StyledNav>
-      <div className="alpha">
-        <img src={logo} alt="logo" />
-        <h1>Abscond</h1>
-      </div>
+      <Link to="/">
+        <div className="alpha">
+          <img src={logo} alt="logo" />
+          <h1>Abscond</h1>
+        </div>
+      </Link>
+
       <nav>
         <ul>
-          <li>Prizes</li>
-          <li>Sponsors</li>
-          <li>Get In Touch</li>
+          <a href="#prizes">
+            <li>Prizes</li>
+          </a>
+          <a href="#sponsors">
+            <li>Sponsors</li>
+          </a>
+          <a href="#contact_us">
+            <li>Get In Touch</li>
+          </a>
         </ul>
-        <button>Register</button>
+        <Link to="/register">
+          <button>Register</button>
+        </Link>
       </nav>
     </StyledNav>
   )
 }
 
 const StyledNav = styled.header`
-  width: 100%;
+  width: 100vw;
   height: 10vh;
 
   display: flex;

@@ -4,7 +4,7 @@ import anime_webp from "./../../Media/Home/sponsors.webp"
 
 function Sponsors() {
   return (
-    <StyledSponsors>
+    <StyledSponsors id="sponsors">
       <picture>
         <source srcSet={anime_webp} type="image/webp" />
         <source srcSet={anime_png} type="image/png" />
@@ -31,6 +31,7 @@ const StyledSponsors = styled.div`
   }
 
   picture {
+    z-index: 2;
     width: 24%;
     position: absolute;
     left: 75%;

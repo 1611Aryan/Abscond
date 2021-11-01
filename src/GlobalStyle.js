@@ -8,6 +8,9 @@ margin:0;
 box-sizing:border-box;
 }
 
+html{
+  scroll-behavior: smooth;
+}
 
 
 body{
@@ -27,6 +30,22 @@ a{
     text-decoration: none;
     color:inherit;
 }
+
+input{
+    border: 0;
+      &:focus {
+        outline: 0;
+      }
+}
+
+button{
+    border: 0;
+      cursor: pointer;
+      &:focus {
+        outline: 0;
+      }
+}
+
 
 `
 

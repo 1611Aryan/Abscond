@@ -2,8 +2,11 @@ import styled from "styled-components"
 
 import anime_webp from "./../../Media/Home/main.webp"
 import anime_png from "./../../Media/Home/main.png"
+const Main: React.FC<{
+  setLoginVis: React.Dispatch<React.SetStateAction<boolean>>
+}> = ({ setLoginVis }) => {
+  const openModal = () => setLoginVis(true)
 
-function Main() {
   return (
     <StyledMain>
       <div className="content">
@@ -15,16 +18,15 @@ function Main() {
           eaque, perspiciatis necessitatibus.
         </p>
 
-        <button>Login</button>
+        <button onClick={openModal}>Login</button>
       </div>
-
-      <span className="circle"></span>
 
       <picture>
         <source srcSet={anime_webp} type="image/webp" />
         <source srcSet={anime_png} type="image/png" />
         <img src={anime_png} alt="Tanjaro" />
       </picture>
+      <span className="circle"></span>
     </StyledMain>
   )
 }
@@ -80,7 +82,6 @@ const StyledMain = styled.section`
   }
 
   .circle {
-    z-index: 2;
     position: absolute;
     top: 50%;
     right: 0;
@@ -93,7 +94,7 @@ const StyledMain = styled.section`
   }
 
   picture {
-    z-index: 1;
+    z-index: 2;
     position: absolute;
     top: 1%;
     left: 75%;
@@ -111,10 +112,12 @@ const StyledMain = styled.section`
     }
 
     .circle {
+      z-index: 2;
       background-color: hsla(160, 60%, 55%, 0.6);
     }
 
     picture {
+      z-index: 1;
       top: auto;
       left: auto;
       bottom: 0;

@@ -5,7 +5,7 @@ import anime_png from "./../../Media/Home/prizes.png"
 
 function Prizes() {
   return (
-    <StyledPrizes>
+    <StyledPrizes id="prizes">
       <picture>
         <source srcSet={anime_webp} type="image/webp" />
         <source srcSet={anime_png} type="image/png" />
@@ -55,6 +55,7 @@ const StyledPrizes = styled.div`
     transform: translate(-20%, -50%);
   }
   picture {
+    z-index: 2;
     position: absolute;
     top: 20%;
     left: 0;
