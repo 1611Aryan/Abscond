@@ -35,7 +35,7 @@ const StyledMain = styled.section`
   width: 100%;
   position: relative;
 
-  height: 90vh;
+  height: 100vh;
   padding: 0 var(--padding);
   .content {
     width: 50%;
@@ -96,7 +96,7 @@ const StyledMain = styled.section`
   picture {
     z-index: 2;
     position: absolute;
-    top: 1%;
+    top: 10%;
     left: 75%;
 
     width: 25%;

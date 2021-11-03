@@ -1,11 +1,12 @@
 import styled from "styled-components"
 import Navbar from "../Components/Navbar"
+import REGISTER_HOME from "../Components/Register/REGISTER_HOME"
 
 const Regsiter: React.FC<{}> = () => {
   return (
     <StyledRegister>
       <Navbar />
-      <h1 className="banner">Register</h1>
+      <REGISTER_HOME />
     </StyledRegister>
   )
 }

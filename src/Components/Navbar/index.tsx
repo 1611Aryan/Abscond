@@ -1,13 +1,33 @@
 import styled from "styled-components"
-import logo from "./../../Media/iiche_logo.png"
-import { Link } from "react-router-dom"
+import logo_black from "./../../Media/iiche_logo_black.png"
+import logo_white from "./../../Media/iiche_logo_white.webp"
+import { Link, useLocation } from "react-router-dom"
+import { useEffect, useState } from "react"
 
-function Navbar() {
+const Navbar = () => {
+  const location = useLocation()
+  const [scheme, setScheme] = useState({
+    color: "#000",
+    background: "none",
+    logo: logo_black,
+  })
+
+  useEffect(() => {
+    const regex = /\b(register\w*)\b/
+    if (regex.test(location.pathname))
+      setScheme(scheme => ({
+        ...scheme,
+        color: "#fff",
+        logo: logo_white,
+        background: " linear-gradient(#000, transparent)",
+      }))
+  }, [location])
+
   return (
-    <StyledNav>
+    <StyledNav theme={{ color: scheme.color, background: scheme.background }}>
       <Link to="/">
         <div className="alpha">
-          <img src={logo} alt="logo" />
+          <img src={scheme.logo} alt="logo" />
           <h1>Abscond</h1>
         </div>
       </Link>
@@ -33,6 +53,10 @@ function Navbar() {
 }
 
 const StyledNav = styled.header`
+  position: absolute;
+  top: 0;
+  left: 0;
+
   width: 100vw;
   height: 10vh;
 
@@ -43,6 +67,14 @@ const StyledNav = styled.header`
   overflow: hidden;
 
   padding: 0 var(--padding);
+
+  z-index: 100;
+
+  background: ${props => props.theme.background};
+
+  > * {
+    color: ${props => props.theme.color};
+  }
 
   .alpha {
     cursor: pointer;
