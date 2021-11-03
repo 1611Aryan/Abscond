@@ -8,7 +8,7 @@ function App() {
   return (
     <StyledApp>
       <Switch>
-        <Route path="/register" exact>
+        <Route path="/register">
           <Regsiter />
         </Route>
         <Route path="/">

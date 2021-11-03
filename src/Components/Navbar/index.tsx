@@ -10,6 +10,11 @@ const Navbar = () => {
     color: "#000",
     background: "none",
     logo: logo_black,
+    nav: true,
+    button: {
+      text: "Register",
+      link: "/register",
+    },
   })
 
   useEffect(() => {
@@ -20,6 +25,11 @@ const Navbar = () => {
         color: "#fff",
         logo: logo_white,
         background: " linear-gradient(#000, transparent)",
+        nav: false,
+        button: {
+          text: "Login",
+          link: "/",
+        },
       }))
   }, [location])
 
@@ -33,19 +43,21 @@ const Navbar = () => {
       </Link>
 
       <nav>
-        <ul>
-          <a href="#prizes">
-            <li>Prizes</li>
-          </a>
-          <a href="#sponsors">
-            <li>Sponsors</li>
-          </a>
-          <a href="#contact_us">
-            <li>Get In Touch</li>
-          </a>
-        </ul>
-        <Link to="/register">
-          <button>Register</button>
+        {scheme.nav && (
+          <ul>
+            <a href="#prizes">
+              <li>Prizes</li>
+            </a>
+            <a href="#sponsors">
+              <li>Sponsors</li>
+            </a>
+            <a href="#contact_us">
+              <li>Get In Touch</li>
+            </a>
+          </ul>
+        )}
+        <Link to={scheme.button.link}>
+          <button>{scheme.button.text}</button>
         </Link>
       </nav>
     </StyledNav>

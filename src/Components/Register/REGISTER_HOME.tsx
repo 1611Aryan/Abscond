@@ -7,8 +7,15 @@ import create_jpg from "./../../Media/Register/create.jpg"
 
 import join_webp from "./../../Media/Register/join.webp"
 import join_jpg from "./../../Media/Register/join.jpg"
+import { useHistory } from "react-router"
 
 const Register_HOME = () => {
+  const history = useHistory()
+
+  const changePage = (path: "create" | "join") => {
+    history.push("/register/" + path)
+  }
+
   return (
     <StyledRegisterHome>
       <picture className="bg">
@@ -16,7 +23,7 @@ const Register_HOME = () => {
         <img src={bg_webp} alt="anime background" />
       </picture>
       <div className="overlay"></div>
-      <div className="guild">
+      <div className="guild" onClick={() => changePage("create")}>
         <span>Create a Guild</span>
         <picture>
           <source srcSet={create_webp} type="image/webp" />
@@ -24,7 +31,7 @@ const Register_HOME = () => {
           <img src={create_jpg} alt=" "></img>
         </picture>
       </div>
-      <div className="guild">
+      <div className="guild" onClick={() => changePage("join")}>
         <picture>
           <source srcSet={join_webp} type="image/webp" />
           <source srcSet={join_jpg} type="image/jpg" />
