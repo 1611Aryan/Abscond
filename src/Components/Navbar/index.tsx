@@ -24,7 +24,7 @@ const Navbar = () => {
         ...scheme,
         color: "#fff",
         logo: logo_white,
-        background: " linear-gradient(#000, transparent)",
+        //background: " linear-gradient(#000, transparent)",
         nav: false,
         button: {
           text: "Login",
