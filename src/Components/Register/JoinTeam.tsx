@@ -113,6 +113,8 @@ const StyledCreateTeam = styled.div`
     display: grid;
     place-items: center;
 
+    padding: var(--padding);
+
     position: relative;
     overflow: hidden;
 
@@ -148,7 +150,7 @@ const StyledCreateTeam = styled.div`
       }
 
       label {
-        font-size: clamp(1rem, 2vw, 1.5rem);
+        font-size: clamp(0.9rem, 2vw, 1.5rem);
         color: #fff;
       }
 
@@ -168,12 +170,12 @@ const StyledCreateTeam = styled.div`
         width: 100%;
         display: flex;
         > * + * {
-          margin-left: clamp(0.7rem, 1vw, 1.5rem);
+          margin-left: clamp(0.6rem, 1vw, 1.5rem);
         }
       }
       button {
-        padding: clamp(0.2rem, 1vw, 0.4rem) clamp(0.7rem, 2vw, 1rem);
-        font-size: clamp(0.9rem, 2vw, 1.25rem);
+        padding: clamp(0.2rem, 1vw, 0.4rem) clamp(0.6rem, 1vw, 1rem);
+        font-size: clamp(0.8rem, 2vw, 1.25rem);
         background: #303447;
         color: #fff;
 
@@ -188,7 +190,7 @@ const StyledCreateTeam = styled.div`
   }
 
   @media only screen and (max-width: 500px) {
-    .left {
+    .right {
       width: 40%;
       .vector1 {
         position: absolute;
@@ -197,7 +199,7 @@ const StyledCreateTeam = styled.div`
         width: 180%;
       }
     }
-    .right {
+    .left {
       width: 60%;
 
       .vector2 {
@@ -208,6 +210,33 @@ const StyledCreateTeam = styled.div`
       }
       form {
         width: 100%;
+        height: 70%;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 400px) {
+    .right {
+      width: 35%;
+      .vector1 {
+        position: absolute;
+        top: -20%;
+        left: -60%;
+        width: 180%;
+      }
+    }
+    .left {
+      width: 65%;
+
+      .vector2 {
+        position: absolute;
+        bottom: -10%;
+        right: -50%;
+        width: 200%;
+      }
+      form {
+        width: 100%;
+        height: 70%;
       }
     }
   }

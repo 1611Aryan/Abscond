@@ -7,13 +7,13 @@ import create_jpg from "./../../Media/Register/create.jpg"
 
 import join_webp from "./../../Media/Register/join.webp"
 import join_jpg from "./../../Media/Register/join.jpg"
-import { useHistory } from "react-router"
+import { useNavigate } from "react-router"
 
 const Register_HOME = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const changePage = (path: "create" | "join") => {
-    history.push("/register/" + path)
+    navigate("/register/" + path)
   }
 
   return (

@@ -1,20 +1,26 @@
 import styled from "styled-components"
 import Home from "./Pages/Home"
 import Regsiter from "./Pages/Register"
-import { Switch, Route } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
+import REGISTER_HOME from "./Components/Register/REGISTER_HOME"
+import CreateTeam from "./Components/Register/CreateTeam"
+import JoinTeam from "./Components/Register/JoinTeam"
 
 //? Main App Component
 function App() {
   return (
     <StyledApp>
-      <Switch>
-        <Route path="/register">
-          <Regsiter />
+      <Routes>
+        <Route path="/register" element={<Regsiter />}>
+          <Route index element={<REGISTER_HOME />} />
+
+          <Route path="create" element={<CreateTeam />} />
+
+          <Route path="join" element={<JoinTeam />} />
         </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+
+        <Route path="/" element={<Home />} />
+      </Routes>
     </StyledApp>
   )
 }

@@ -1,23 +1,12 @@
-import { Route } from "react-router"
+import { Outlet } from "react-router"
 import styled from "styled-components"
 import Navbar from "../Components/Navbar"
-import CreateTeam from "../Components/Register/CreateTeam"
-import JoinTeam from "../Components/Register/JoinTeam"
-import REGISTER_HOME from "../Components/Register/REGISTER_HOME"
 
 const Regsiter: React.FC<{}> = () => {
   return (
     <StyledRegister>
       <Navbar />
-      <Route path="/register" exact>
-        <REGISTER_HOME />
-      </Route>
-      <Route path="/register/create" exact>
-        <CreateTeam />
-      </Route>
-      <Route path="/register/join" exact>
-        <JoinTeam />
-      </Route>
+      <Outlet />
     </StyledRegister>
   )
 }
