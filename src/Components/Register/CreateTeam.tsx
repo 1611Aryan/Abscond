@@ -14,13 +14,7 @@ const CreateTeam = () => {
       <div className=" left">
         <img src={vector1} className="vector1" alt="blob" />
         <p>
-          Let's
-          <br />
-          Get
-          <br />
-          You
-          <br />
-          Started
+          Let's <br /> Get <br /> You <br /> Started
         </p>
       </div>
       <div className="right">
@@ -94,7 +88,7 @@ const StyledCreateTeam = styled.div`
     padding: var(--padding);
 
     p {
-      font-size: clamp(1.75rem, 5vw, 5rem);
+      font-size: clamp(1.5rem, 5vw, 5rem);
       color: #fff;
       line-height: 1.1;
       font-weight: 600;
@@ -243,7 +237,8 @@ const StyledCreateTeam = styled.div`
       }
       form {
         width: 100%;
-        height: 70%;
+        height: 75%;
+        padding: calc(var(--padding) / 2);
       }
     }
   }

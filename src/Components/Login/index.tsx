@@ -1,13 +1,18 @@
+import axios from "axios"
 import React, { useState } from "react"
+import { useNavigate } from "react-router"
 import styled from "styled-components"
+import { loginEndpoint } from "../../Endpoints"
 
 const Login: React.FC<{
   setLoginVis: React.Dispatch<React.SetStateAction<boolean>>
 }> = ({ setLoginVis }) => {
   const [input, setInput] = useState({
-    guild: "",
+    guildName: "",
     password: "",
   })
+  const [error, setError] = useState("")
+  const navigate = useNavigate()
 
   const closeModal = () => setLoginVis(false)
 
@@ -16,8 +21,24 @@ const Login: React.FC<{
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInput(input => ({ ...input, [e.target.name]: e.target.value }))
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    try {
+      setError("")
+      const res = await axios[loginEndpoint.method]<{
+        message: string
+      }>(loginEndpoint.url, input, {
+        withCredentials: true,
+      })
+      console.log(res.data.message)
+      navigate("/dashboard")
+    } catch (error: any) {
+      if (error.response.data.message) {
+        return setError(error.response.data.message)
+      } else console.log("Error", error.message)
+      return setError("We encountered an Error please try again later")
+    }
   }
 
   return (
@@ -25,15 +46,16 @@ const Login: React.FC<{
       <form onClick={dontClose} onSubmit={submitHandler}>
         <div className="circle1"></div>
         <div className="circle2"></div>
+        <div className="error">{error}</div>
         <div className="inputContainer">
-          <label htmlFor="guild">Guild Name</label>
+          <label htmlFor="guildName">Guild Name</label>
           <br />
           <input
             type="text"
-            name="guild"
+            name="guildName"
             autoFocus
             required
-            value={input.guild}
+            value={input.guildName}
             onChange={changeHandler}
           />
         </div>
@@ -110,6 +132,12 @@ const StyledLogin = styled.section`
       margin-top: 1rem;
     }
 
+    .error {
+      z-index: 2;
+      color: red;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+    }
+
     .inputContainer {
       z-index: 2;
       width: 100%;
@@ -153,7 +181,7 @@ const StyledLogin = styled.section`
     form {
       border-radius: 10px;
       width: 90%;
-      height: 42%;
+      height: 48%;
       .circle1 {
         --size: 175px;
       }

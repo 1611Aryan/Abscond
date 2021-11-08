@@ -1,4 +1,5 @@
-import { useState } from "react"
+import React, { useState } from "react"
+import { useParams } from "react-router"
 import styled from "styled-components"
 
 import vector1 from "./../../Media/Register/vector1.png"
@@ -6,6 +7,21 @@ import vector2 from "./../../Media/Register/vector2.png"
 
 const CreateTeam = () => {
   const [page, setPage] = useState(1)
+
+  const { guildCode } = useParams()
+
+  const [input, setInput] = useState({
+    guildCode: guildCode || "",
+    name: "",
+    email: "",
+    phone: "",
+
+    branch: "",
+    year: "",
+  })
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setInput(input => ({ ...input, [e.target.name]: e.target.value }))
 
   const changePage = (pageNumber: number) => setPage(pageNumber)
 
@@ -17,20 +33,45 @@ const CreateTeam = () => {
           {page === 1 ? (
             <>
               <div className="inputContainer">
-                <label htmlFor="guild">Guild Code</label>
-                <input type="text" name="guild" required autoFocus />
+                <label htmlFor="guildCode">Guild Code</label>
+                <input
+                  type="text"
+                  name="guildCode"
+                  value={input.guildCode}
+                  onChange={changeHandler}
+                  required
+                  autoFocus
+                />
               </div>
               <div className="inputContainer">
                 <label htmlFor="name">Your Name</label>
-                <input type="text" name="name" required />
+                <input
+                  type="text"
+                  name="name"
+                  value={input.name}
+                  onChange={changeHandler}
+                  required
+                />
               </div>
               <div className="inputContainer">
                 <label htmlFor="email">Email</label>
-                <input type="email" name="email" required />
+                <input
+                  type="email"
+                  name="email"
+                  value={input.email}
+                  onChange={changeHandler}
+                  required
+                />
               </div>
               <div className="inputContainer">
-                <label htmlFor="number">Phone Number</label>
-                <input type="text" name="number" required />
+                <label htmlFor="phone">Phone Number</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={input.phone}
+                  onChange={changeHandler}
+                  required
+                />
               </div>
               <button type="button" onClick={() => changePage(2)}>
                 Next
@@ -40,11 +81,23 @@ const CreateTeam = () => {
             <>
               <div className="inputContainer">
                 <label htmlFor="name">Branch</label>
-                <input type="text" name="name" required />
+                <input
+                  type="text"
+                  name="branch"
+                  value={input.branch}
+                  onChange={changeHandler}
+                  required
+                />
               </div>
               <div className="inputContainer">
                 <label htmlFor="email">Year</label>
-                <input type="text" name="email" required />
+                <input
+                  type="text"
+                  name="year"
+                  value={input.year}
+                  onChange={changeHandler}
+                  required
+                />
               </div>
               <div className="btnContainer">
                 <button type="button" onClick={() => changePage(1)}>
@@ -87,7 +140,7 @@ const StyledCreateTeam = styled.div`
     padding: var(--padding);
 
     p {
-      font-size: clamp(1.75rem, 5vw, 5rem);
+      font-size: clamp(1.5rem, 5vw, 5rem);
       color: #fff;
       line-height: 1.1;
       font-weight: 600;
@@ -226,7 +279,7 @@ const StyledCreateTeam = styled.div`
       }
     }
     .left {
-      width: 65%;
+      width: 75%;
 
       .vector2 {
         position: absolute;
@@ -236,7 +289,8 @@ const StyledCreateTeam = styled.div`
       }
       form {
         width: 100%;
-        height: 70%;
+        height: 75%;
+        padding: calc(var(--padding) / 2);
       }
     }
   }
