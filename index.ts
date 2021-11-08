@@ -17,7 +17,7 @@ app.use(
     origin:
       process.env.NODE_ENV !== "production"
         ? "http://localhost:3000"
-        : "https://abscond.netlify.app/",
+        : "https://abscond.netlify.app",
     credentials: true,
   })
 )
