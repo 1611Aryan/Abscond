@@ -19,6 +19,7 @@ export const login: controller = async (req, res) => {
   const errMessage = "Incorrect Guild Name or Password"
   const successMessage = "Login Successfull"
   const { guildName, password } = req.body
+  console.log({ guildName, password })
   if (!guildName || !password)
     return res.status(400).send({ message: errMessage })
   try {

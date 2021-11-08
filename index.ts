@@ -1,6 +1,7 @@
 import Express from "express"
 import helmet from "helmet"
 import morgan from "morgan"
+import cors from "cors"
 import mongoose, { ConnectOptions } from "mongoose"
 import { config } from "dotenv"
 import PublicRouter from "./Routes/public.routes"
@@ -11,6 +12,12 @@ const PORT = process.env.PORT || 5000
 
 app.use(Express.urlencoded({ extended: true }))
 app.use(Express.json())
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+)
 app.use(helmet())
 app.use(morgan("dev"))
 config()
