@@ -11,7 +11,9 @@ enum Method {
 }
 
 const baseUrl =
-  process.env.NODE_ENV !== "production" ? "http://localhost:5000" : ""
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:5000"
+    : "https://iiche-abscond.herokuapp.com"
 
 export const loginEndpoint: Endpoint = {
   url: baseUrl + "/login",
