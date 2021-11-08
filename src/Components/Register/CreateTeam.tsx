@@ -1,13 +1,53 @@
-import { useState } from "react"
+import axios from "axios"
+import React, { useState } from "react"
 import styled from "styled-components"
+import { createGuildEndpoint } from "../../Endpoints"
 
 import vector1 from "./../../Media/Register/vector1.png"
 import vector2 from "./../../Media/Register/vector2.png"
+import Modal from "./Modal"
 
 const CreateTeam = () => {
   const [page, setPage] = useState(1)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
+
+  const [input, setInput] = useState({
+    guildName: "",
+    password: "",
+    name: "",
+    email: "",
+    phone: "",
+    branch: "",
+    year: "",
+  })
 
   const changePage = (pageNumber: number) => setPage(pageNumber)
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setInput(input => ({
+      ...input,
+      [e.target.name]: e.target.value,
+    }))
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setError("")
+    setSuccess(false)
+    try {
+      await axios[createGuildEndpoint.method](createGuildEndpoint.url, input, {
+        withCredentials: true,
+      })
+
+      setSuccess(true)
+    } catch (error: any) {
+      console.log(error.response)
+      if (error.response.data.message) {
+        return setError(error.response.data.message)
+      } else console.log("Error", error.message)
+      return setError("We encountered an Error please try again later")
+    }
+  }
 
   return (
     <StyledCreateTeam>
@@ -19,20 +59,41 @@ const CreateTeam = () => {
       </div>
       <div className="right">
         <img src={vector2} className="vector2" alt="blob" />
-        <form>
+        <form onSubmit={submitHandler}>
           {page === 1 ? (
             <>
+              <div className="error">{error}</div>
               <div className="inputContainer">
-                <label htmlFor="guild">Your Guild Name</label>
-                <input type="text" name="guild" required autoFocus />
+                <label htmlFor="guildName">Your Guild Name</label>
+                <input
+                  type="text"
+                  name="guildName"
+                  required
+                  value={input.guildName}
+                  onChange={changeHandler}
+                  autoFocus
+                />
               </div>
               <div className="inputContainer">
                 <label htmlFor="name">Your Name</label>
-                <input type="text" name="name" required />
+                <input
+                  type="text"
+                  value={input.name}
+                  onChange={changeHandler}
+                  name="name"
+                  required
+                />
               </div>
               <div className="inputContainer">
-                <label htmlFor="guild">Create Guild Password</label>
-                <input type="password" name="guild" required autoFocus />
+                <label htmlFor="password">Create Guild Password</label>
+                <input
+                  type="password"
+                  value={input.password}
+                  onChange={changeHandler}
+                  name="password"
+                  required
+                  autoFocus
+                />
               </div>
 
               <button type="button" onClick={() => changePage(2)}>
@@ -43,19 +104,43 @@ const CreateTeam = () => {
             <>
               <div className="inputContainer">
                 <label htmlFor="email">Email</label>
-                <input type="email" name="email" required />
+                <input
+                  type="email"
+                  value={input.email}
+                  onChange={changeHandler}
+                  name="email"
+                  required
+                />
               </div>
               <div className="inputContainer">
-                <label htmlFor="number">Phone Number</label>
-                <input type="text" name="number" required />
+                <label htmlFor="phone">Phone Number</label>
+                <input
+                  type="text"
+                  value={input.phone}
+                  onChange={changeHandler}
+                  name="phone"
+                  required
+                />
               </div>
               <div className="inputContainer">
-                <label htmlFor="name">Branch</label>
-                <input type="text" name="name" required />
+                <label htmlFor="branch">Branch</label>
+                <input
+                  type="text"
+                  name="branch"
+                  value={input.branch}
+                  onChange={changeHandler}
+                  required
+                />
               </div>
               <div className="inputContainer">
-                <label htmlFor="email">Year</label>
-                <input type="text" name="email" required />
+                <label htmlFor="year">Year</label>
+                <input
+                  type="text"
+                  name="year"
+                  value={input.year}
+                  onChange={changeHandler}
+                  required
+                />
               </div>
               <div className="btnContainer">
                 <button type="button" onClick={() => changePage(1)}>
@@ -67,6 +152,7 @@ const CreateTeam = () => {
           )}
         </form>
       </div>
+      {success && <Modal message="Guild Created Successfully" />}
     </StyledCreateTeam>
   )
 }
@@ -141,6 +227,11 @@ const StyledCreateTeam = styled.div`
 
       > * + * {
         margin-top: clamp(0.5rem, 1vw, 1rem);
+      }
+
+      .error {
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        color: red;
       }
 
       .inputContainer {

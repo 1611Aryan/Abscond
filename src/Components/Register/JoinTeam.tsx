@@ -1,12 +1,17 @@
+import axios from "axios"
 import React, { useState } from "react"
 import { useParams } from "react-router"
 import styled from "styled-components"
+import { joinGuildEndpoint } from "../../Endpoints"
 
 import vector1 from "./../../Media/Register/vector1.png"
 import vector2 from "./../../Media/Register/vector2.png"
+import Modal from "./Modal"
 
 const CreateTeam = () => {
   const [page, setPage] = useState(1)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
 
   const { guildCode } = useParams()
 
@@ -25,13 +30,33 @@ const CreateTeam = () => {
 
   const changePage = (pageNumber: number) => setPage(pageNumber)
 
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setError("")
+    setSuccess(false)
+    try {
+      await axios[joinGuildEndpoint.method](joinGuildEndpoint.url, input, {
+        withCredentials: true,
+      })
+
+      setSuccess(true)
+    } catch (error: any) {
+      setPage(1)
+      if (error.response.data.message) {
+        return setError(error.response.data.message)
+      } else console.log("Error", error.message)
+      return setError("We encountered an Error please try again later")
+    }
+  }
+
   return (
     <StyledCreateTeam>
       <div className=" left">
         <img src={vector2} className="vector2" alt="blob" />
-        <form>
+        <form onSubmit={submitHandler}>
           {page === 1 ? (
             <>
+              <div className="error">{error}</div>
               <div className="inputContainer">
                 <label htmlFor="guildCode">Guild Code</label>
                 <input
@@ -119,6 +144,7 @@ const CreateTeam = () => {
           Team
         </p>
       </div>
+      {success && <Modal message="Guild Joined Successfully" />}
     </StyledCreateTeam>
   )
 }
@@ -195,6 +221,10 @@ const StyledCreateTeam = styled.div`
         margin-top: clamp(0.5rem, 1vw, 1rem);
       }
 
+      .error {
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        color: red;
+      }
       .inputContainer {
         width: 100%;
         > * + * {

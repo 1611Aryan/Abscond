@@ -19,3 +19,13 @@ export const loginEndpoint: Endpoint = {
   url: baseUrl + "/login",
   method: Method.POST,
 }
+
+export const createGuildEndpoint: Endpoint = {
+  url: baseUrl + "/createGuild",
+  method: Method.POST,
+}
+
+export const joinGuildEndpoint: Endpoint = {
+  url: baseUrl + "/joinGuild",
+  method: Method.POST,
+}
