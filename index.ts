@@ -14,7 +14,10 @@ app.use(Express.urlencoded({ extended: true }))
 app.use(Express.json())
 app.use(
   cors({
-    origin: ["/", "http://localhost:3000", "https://abscond.netlify.app/"],
+    origin:
+      process.env.NODE_ENV !== "production"
+        ? "http://localhost:3000"
+        : "https://abscond.netlify.app/",
     credentials: true,
   })
 )
