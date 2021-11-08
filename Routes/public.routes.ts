@@ -9,7 +9,7 @@ import {
 
 const router = Router()
 
-router.route("/").get(getGuilds)
+process.env.NODE_ENV !== "production" && router.route("/").get(getGuilds)
 
 router.route("/login").post(login)
 

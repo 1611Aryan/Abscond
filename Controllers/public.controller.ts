@@ -39,19 +39,19 @@ export const login: controller = async (req, res) => {
 }
 
 export const createGuild: controller = async (req, res) => {
-  const { guildName, password, leader }: GuildI = req.body
+  const { guildName, password }: GuildI = req.body
+  const { name, email, phone, branch, year } = req.body
 
-  if (
-    !guildName ||
-    !password ||
-    !leader ||
-    !leader.name ||
-    !leader.email ||
-    !leader.phone ||
-    !leader.branch ||
-    !leader.year
-  )
+  if (!guildName || !password || !name || !email || !phone || !branch || !year)
     return res.status(400).send({ message: "Incorrect/ Incomplete Data" })
+
+  const leader = {
+    name,
+    email,
+    phone,
+    branch,
+    year,
+  }
 
   try {
     const existingGuild = await Guild.findOne({
@@ -72,7 +72,7 @@ export const createGuild: controller = async (req, res) => {
       ],
     }).lean()
 
-    if (existingGuild)
+    if (existingGuild && false)
       return res
         .status(400)
         .send("Guild Name not Available/You are already part of a guild")
@@ -92,17 +92,12 @@ export const createGuild: controller = async (req, res) => {
 }
 
 export const verifyCodeAndMember: controller = async (req, res, next) => {
-  const { guildCode, member } = req.body
-  if (
-    !guildCode ||
-    !member ||
-    !member.email ||
-    !member.phone ||
-    !member.name ||
-    !member.year ||
-    !member.branch
-  )
+  const { guildCode, name, email, phone, branch, year } = req.body
+  if (!guildCode || !email || !phone || !name || !year || !branch)
     return res.sendStatus(400)
+
+  const member = { email, phone, name, year, branch }
+
   try {
     const alreadyMmeber = await Guild.findOne({
       $or: [
@@ -131,7 +126,7 @@ export const verifyCodeAndMember: controller = async (req, res, next) => {
     )
       return next()
     else if (guildExists) return res.status(400).send(" Guild already Full")
-    else return res.status(400).send("Incorrect Guild Code")
+    else return res.status(400).send({ message: "Incorrect Guild Code" })
   } catch (err) {
     console.error({ verifyCodeAndMember: err })
     return res.status(500).send(err)
@@ -139,7 +134,8 @@ export const verifyCodeAndMember: controller = async (req, res, next) => {
 }
 
 export const joinGuild: controller = async (req, res) => {
-  const { guildCode, member } = req.body
+  const { guildCode, name, email, phone, branch, year } = req.body
+  const member = { email, phone, name, year, branch }
   try {
     await Guild.findOneAndUpdate(
       { guildCode },
