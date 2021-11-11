@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import Guild, { GuildI } from "../Models/guild.model"
 import bcrypt from "bcrypt"
 import { nanoid } from "nanoid"
+import jwt from "jsonwebtoken"
 
 type controller = (req: Request, res: Response, next?: NextFunction) => {}
 
@@ -15,6 +16,15 @@ export const getGuilds: controller = async (req, res) => {
   }
 }
 
+const genPayload = (guild: GuildI) => ({
+  guildName: guild.guildName,
+  guildCode: guild.guildCode,
+  leader: {
+    name: guild.leader.name,
+  },
+  members: guild.members.map(member => ({ name: member.name })),
+})
+
 export const login: controller = async (req, res) => {
   const errMessage = "Incorrect Guild Name or Password"
   const successMessage = "Login Successfull"
@@ -26,10 +36,23 @@ export const login: controller = async (req, res) => {
     const guild = await Guild.findOne({ guildName }).lean()
     if (!guild) return res.status(404).send({ message: errMessage })
     if (await bcrypt.compare(password, guild.password)) {
-      const { password, ...restGuild } = guild
+      const payload = genPayload(guild)
+
+      const token = jwt.sign(
+        {
+          id: guild._id,
+        },
+        process.env.JWT_SECRET
+      )
+
       return res
+        .cookie("jwt", token, {
+          maxAge: 1000 * 60 * 60 * 5,
+          secure: true,
+          httpOnly: true,
+        })
         .status(200)
-        .send({ message: successMessage, payload: { guild: restGuild } })
+        .send({ message: successMessage, guild: payload })
     }
     return res.status(404).send({ message: errMessage })
   } catch (err) {

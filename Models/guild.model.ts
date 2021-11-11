@@ -12,6 +12,7 @@ interface personI {
 export type GuildI = {
   guildName: string
   guildCode: string
+  allowed: boolean
   password: string
   leader: personI
   members: personI[]
@@ -36,6 +37,10 @@ const GuildSchema = new Schema<GuildI>(
       type: String,
       required: true,
       unique: true,
+    },
+    allowed: {
+      type: Boolean,
+      default: true,
     },
     password: {
       type: String,

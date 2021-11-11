@@ -2,9 +2,12 @@ import Express from "express"
 import helmet from "helmet"
 import morgan from "morgan"
 import cors from "cors"
+import cookieParser from "cookie-parser"
 import mongoose, { ConnectOptions } from "mongoose"
 import { config } from "dotenv"
 import PublicRouter from "./Routes/public.routes"
+import ProtectedRouter from "./Routes/protected.routes"
+import { verifyToken } from "./Middlewares/verifyToken"
 
 const app = Express()
 
@@ -23,6 +26,7 @@ app.use(
 )
 app.use(helmet())
 app.use(morgan("dev"))
+app.use(cookieParser())
 config()
 
 const MongoURI = process.env.MONGODB_URI
@@ -38,5 +42,6 @@ connection.once("open", () =>
 )
 
 app.use("/", PublicRouter)
+app.use("/guild", verifyToken, ProtectedRouter)
 
 app.listen(PORT, () => console.log(`Server Running On Port ${PORT}`))
