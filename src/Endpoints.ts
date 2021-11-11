@@ -29,3 +29,13 @@ export const joinGuildEndpoint: Endpoint = {
   url: baseUrl + "/joinGuild",
   method: Method.POST,
 }
+
+export const profileEndpoint: Endpoint = {
+  url: baseUrl + "/guild/profile",
+  method: Method.GET,
+}
+
+export const logoutEndpoint: Endpoint = {
+  url: baseUrl + "/guild/logout",
+  method: Method.GET,
+}

@@ -2,6 +2,7 @@ import axios from "axios"
 import React, { useState } from "react"
 import styled from "styled-components"
 import { createGuildEndpoint } from "../../Endpoints"
+import SpinnerLoader from "../Loaders/spinner"
 
 import vector1 from "./../../Media/Register/vector1.png"
 import vector2 from "./../../Media/Register/vector2.png"
@@ -11,6 +12,7 @@ const CreateTeam = () => {
   const [page, setPage] = useState(1)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [input, setInput] = useState({
     guildName: "",
@@ -34,13 +36,16 @@ const CreateTeam = () => {
     e.preventDefault()
     setError("")
     setSuccess(false)
+    setLoading(true)
     try {
       await axios[createGuildEndpoint.method](createGuildEndpoint.url, input, {
         withCredentials: true,
       })
 
       setSuccess(true)
+      setLoading(false)
     } catch (error: any) {
+      setLoading(false)
       console.log(error.response)
       if (error.response.data.message) {
         return setError(error.response.data.message)
@@ -51,6 +56,7 @@ const CreateTeam = () => {
 
   return (
     <StyledCreateTeam>
+      {loading && <SpinnerLoader />}
       <div className=" left">
         <img src={vector1} className="vector1" alt="blob" />
         <p>

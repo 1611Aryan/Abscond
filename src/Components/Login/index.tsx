@@ -1,8 +1,13 @@
 import axios from "axios"
 import React, { useState } from "react"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router"
 import styled from "styled-components"
 import { loginEndpoint } from "../../Endpoints"
+import { login } from "../../Redux/Slices/authentication.slice"
+import { addGuild, guild } from "../../Redux/Slices/guild.slice"
+import { AppDispatch } from "../../Redux/store"
+import SpinnerLoader from "../Loaders/spinner"
 
 const Login: React.FC<{
   setLoginVis: React.Dispatch<React.SetStateAction<boolean>>
@@ -11,8 +16,11 @@ const Login: React.FC<{
     guildName: "",
     password: "",
   })
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const navigate = useNavigate()
+
+  const dispatch = useDispatch<AppDispatch>()
 
   const closeModal = () => setLoginVis(false)
 
@@ -25,15 +33,20 @@ const Login: React.FC<{
     e.preventDefault()
 
     try {
+      setLoading(true)
       setError("")
       const res = await axios[loginEndpoint.method]<{
         message: string
+        guild: guild
       }>(loginEndpoint.url, input, {
         withCredentials: true,
       })
-      console.log(res.data.message)
+      dispatch(login())
+      dispatch(addGuild(res.data.guild))
+      setLoading(false)
       navigate("/dashboard")
     } catch (error: any) {
+      setLoading(false)
       if (error.response.data.message) {
         return setError(error.response.data.message)
       } else console.log("Error", error.message)
@@ -43,6 +56,7 @@ const Login: React.FC<{
 
   return (
     <StyledLogin onClick={closeModal}>
+      {loading && <SpinnerLoader />}
       <form onClick={dontClose} onSubmit={submitHandler}>
         <div className="circle1"></div>
         <div className="circle2"></div>
