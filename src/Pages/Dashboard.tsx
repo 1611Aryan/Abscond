@@ -6,17 +6,19 @@ import bg1_avif from "./../Media/Dashboard/bg1.avif"
 import bg1_webp from "./../Media/Dashboard/bg1.webp"
 import bg1_jpg from "./../Media/Dashboard/bg1.jpg"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import axios from "axios"
 import { profileEndpoint } from "../Endpoints"
 import { AppDispatch } from "../Redux/store"
 import Profile from "../Components/Dashboard/Profile"
+import LogoLoader from "../Components/Loaders/logo"
 
 //import logo_white from "./../Media/iiche_logo_white.webp"
 
 const Dashboard = () => {
   const { guild } = useSelector(selectGuild)
+  const [loading, setLoading] = useState(true)
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -30,6 +32,7 @@ const Dashboard = () => {
           }
         )
         dispatch(addGuild(res.data.guild))
+        setLoading(false)
       } catch (err) {
         console.error(err)
       }
@@ -39,6 +42,7 @@ const Dashboard = () => {
 
   return (
     <StyledDashboard>
+      {loading && <LogoLoader />}
       <picture className="bg">
         <source srcSet={bg1_avif} type="image/avif" />
         <source srcSet={bg1_webp} type="image/webp" />

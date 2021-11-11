@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
 
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../../Redux/store"
@@ -30,9 +29,8 @@ const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
         <nav>
           <div className="logo">
             <img src={logo_black} alt="" />
-            <Link to="/">
-              <h1>Abscond</h1>
-            </Link>
+
+            <h1>Abscond</h1>
           </div>
 
           <button onClick={logOut}>Logout</button>
@@ -155,7 +153,7 @@ const StyledProfile = styled.div`
           height: 45vh;
 
           display: flex;
-          justify-content: space-between;
+
           align-items: flex-start;
           flex-direction: column;
 
@@ -166,6 +164,9 @@ const StyledProfile = styled.div`
 
           li {
             font-size: clamp(0.9rem, 2vw, 1.25rem);
+            + li {
+              margin-top: clamp(1rem, 2vw, 1.75rem);
+            }
           }
         }
       }

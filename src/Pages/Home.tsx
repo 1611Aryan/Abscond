@@ -4,14 +4,22 @@ import Main from "../Components/Home/Main"
 import Prizes from "../Components/Home/Prizes"
 import Sponsors from "../Components/Home/Sponsors"
 import ContactUs from "../Components/Home/ContactUs"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Login from "../Components/Login"
+import LogoLoader from "../Components/Loaders/logo"
 
 const Home = () => {
   const [loginVis, setLoginVis] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 250)
+  }, [])
 
   return (
     <StyledHome>
+      {loading && <LogoLoader />}
+
       <Navbar />
       <Main setLoginVis={setLoginVis} />
       <Prizes />
