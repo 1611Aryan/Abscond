@@ -50,6 +50,7 @@ export const login: controller = async (req, res) => {
           maxAge: 1000 * 60 * 60 * 5,
           secure: true,
           httpOnly: true,
+          sameSite: "none",
         })
         .status(200)
         .send({ message: successMessage, guild: payload })
