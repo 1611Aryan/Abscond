@@ -13,6 +13,8 @@ import { profileEndpoint } from "../Endpoints"
 import { AppDispatch } from "../Redux/store"
 import Profile from "../Components/Dashboard/Profile"
 import LogoLoader from "../Components/Loaders/logo"
+import { logout } from "../Redux/Slices/authentication.slice"
+import Game from "../Components/Dashboard/Game"
 
 //import logo_white from "./../Media/iiche_logo_white.webp"
 
@@ -24,13 +26,22 @@ const Dashboard = () => {
 
   useEffect(() => {
     ;(async () => {
+      const CancelToken = axios.CancelToken
+      const source = CancelToken.source()
+      const timeOut = setTimeout(() => {
+        dispatch(logout())
+        setLoading(false)
+        source.cancel("")
+      }, 5000)
       try {
         const res = await axios[profileEndpoint.method]<{ guild: guild }>(
           profileEndpoint.url,
           {
             withCredentials: true,
+            cancelToken: source.token,
           }
         )
+        clearTimeout(timeOut)
         dispatch(addGuild(res.data.guild))
         setLoading(false)
       } catch (err) {
@@ -51,6 +62,7 @@ const Dashboard = () => {
       </picture>
 
       <Profile guild={guild} />
+      <Game />
     </StyledDashboard>
   )
 }
@@ -75,7 +87,7 @@ const StyledDashboard = styled.main`
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: blur(10px);
+      filter: blur(15px) contrast(90%);
     }
   }
 `

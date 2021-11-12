@@ -77,6 +77,8 @@ const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
 const StyledProfile = styled.div`
   width: 100%;
   height: 100vh;
+
+  color: #000d;
   header {
     width: 100%;
     height: 10vh;
