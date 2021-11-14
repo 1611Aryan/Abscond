@@ -11,7 +11,7 @@ import { logoutEndpoint } from "../../Endpoints"
 import { RiFileCopyLine } from "react-icons/ri"
 
 import logo_black from "./../../Media/iiche_logo_black.png"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 
 const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
   const dispatch = useDispatch<AppDispatch>()
