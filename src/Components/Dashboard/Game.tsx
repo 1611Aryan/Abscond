@@ -165,6 +165,19 @@ const StyledGame = styled.section`
       font-size: clamp(0.9rem, 2vw, 1.25rem);
     }
   }
+
+  @media only screen and (max-width: 450px) {
+    justify-content: space-evenly;
+    main {
+      .question {
+        width: 100%;
+        text-align: left;
+      }
+      textarea {
+        width: 100%;
+      }
+    }
+  }
 `
 
 export default Game

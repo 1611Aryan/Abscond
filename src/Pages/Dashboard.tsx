@@ -58,7 +58,7 @@ const Dashboard = () => {
     socket?.connect()
 
     return () => {
-      socket?.disconnect()
+      socket?.close()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -71,7 +71,7 @@ const Dashboard = () => {
       </picture>
 
       <Profile guild={guild} />
-      {new Date("Nov 20, 2021 22:00:00").getTime() - new Date().getTime() >=
+      {new Date("Nov 20, 2021 22:00:00").getTime() - new Date().getTime() <=
       0 ? (
         <Countdown />
       ) : (

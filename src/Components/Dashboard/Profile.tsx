@@ -38,7 +38,7 @@ const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "Hera Pheri Invite",
+          title: "Abscond Guild Invite",
           text: `Join My Guild ${guild?.guildName}`,
           url: `   https://abscond.com/register/join/${guild.guildCode}`,
         })
@@ -205,6 +205,7 @@ const StyledProfile = styled.div`
       }
 
       .right {
+        min-width: 35%;
         > * + * {
           margin-top: clamp(1rem, 2vw, 1.75rem);
         }
@@ -225,13 +226,25 @@ const StyledProfile = styled.div`
 
             .box {
               flex: 1;
+              height: calc(clamp(0.8rem, 1vw, 1rem) + 1rem);
               background: rgba(255, 255, 255, 0.4);
               backdrop-filter: blur(5px);
-              padding: 0.4rem 0.6rem;
-              line-height: 1.2;
+              padding: 0 0.4rem;
+
+              overflow: auto hidden;
+
               span {
-                font-size: clamp(0.8rem, 2vw, 1.1rem);
+                width: 100%;
+                height: 100%;
+
+                line-height: 1;
+
+                white-space: nowrap;
+
+                display: flex;
+                align-items: center;
               }
+
               input {
                 display: none;
                 visibility: hidden;
@@ -239,15 +252,65 @@ const StyledProfile = styled.div`
             }
             button {
               background: rgba(0, 0, 0, 0.4);
-              padding: 0.4rem;
+              height: 100%;
+              padding: 0.5rem;
               display: grid;
               place-items: center;
-              svg {
-                font-size: clamp(0.9rem, 2vw, 1.25rem);
-                color: #fff;
-              }
+
+              font-size: clamp(0.8rem, 1vw, 1rem);
+
+              color: #fff;
             }
           }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    section {
+      .content {
+        .right {
+          width: 50%;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 750px) {
+    section {
+      .content {
+        flex-direction: column;
+        align-items: flex-start;
+
+        > * + * {
+          margin-top: 2rem;
+        }
+
+        .left {
+          width: 75%;
+          ol {
+            height: 40vh;
+          }
+        }
+        .right {
+          width: 75%;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    section {
+      .content {
+        .left {
+          width: 100%;
+          ol {
+            height: 40vh;
+          }
+        }
+        .right {
+          width: 100%;
         }
       }
     }

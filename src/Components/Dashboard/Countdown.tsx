@@ -2,15 +2,12 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 
 const Countdown: React.FC = () => {
-  // Set Date
   const countDownDate = new Date("Nov 20, 2021 22:00:00").getTime()
 
   const [days, setDays] = useState(0)
   const [minutes, setMinutes] = useState(0)
   const [hours, setHours] = useState(0)
   const [seconds, setSeconds] = useState(0)
-
-  // CountDown Action
 
   useEffect(() => {
     const x = setInterval(() => {
@@ -43,7 +40,7 @@ const Countdown: React.FC = () => {
   }, [countDownDate])
   return (
     <StyledCountdown>
-      <h1>The Hunt Starts in...</h1>
+      <h1>The Battle Starts in...</h1>
       <div className="counter">
         <div>
           <span className="days">{days}</span>
@@ -74,19 +71,18 @@ const StyledCountdown = styled.section`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  padding: 1rem;
+  padding: var(--padding);
   h1 {
     width: 100%;
     text-align: center;
 
-    font-size: clamp(3.5rem, 5vw, 5rem) !important;
-    font-weight: 700;
+    font-size: clamp(3rem, 5vw, 5rem);
   }
   .counter {
     width: 100%;
     height: auto;
-    display: flex;
 
+    display: flex;
     justify-content: space-evenly;
     align-items: center;
     padding: 0 5%;
