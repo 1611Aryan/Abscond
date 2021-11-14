@@ -9,6 +9,7 @@ const Regsiter: React.FC<{}> = () => {
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 250)
+    document.title = "ABSCOND • REGISTER"
   }, [])
   return (
     <StyledRegister>

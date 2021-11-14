@@ -14,6 +14,7 @@ const Home = () => {
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 250)
+    document.title = "ABSCOND"
   }, [])
 
   return (

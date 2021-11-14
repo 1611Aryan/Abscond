@@ -175,7 +175,7 @@ const StyledSponsors = styled.div`
           justify-content: space-evenly;
           align-items: center;
           flex-direction: column;
-          background: rgba(255, 255, 255, 0.2);
+          background: rgba(255, 255, 255, 0.3);
           padding: 10px;
 
           span {

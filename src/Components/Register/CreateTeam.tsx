@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { createGuildEndpoint } from "../../Endpoints"
 import SpinnerLoader from "../Loaders/spinner"
@@ -22,6 +22,10 @@ const CreateTeam = () => {
     phone: "",
     branch: "",
     year: "",
+  })
+
+  useEffect(() => {
+    document.title = "ABSCOND • CREATE"
   })
 
   const changePage = (pageNumber: number) => setPage(pageNumber)
@@ -47,6 +51,16 @@ const CreateTeam = () => {
     } catch (error: any) {
       setLoading(false)
       console.log(error.response)
+      setPage(1)
+      setInput({
+        guildName: "",
+        password: "",
+        name: "",
+        email: "",
+        phone: "",
+        branch: "",
+        year: "",
+      })
       if (error.response.data.message) {
         return setError(error.response.data.message)
       } else console.log("Error", error.message)

@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useParams } from "react-router"
 import styled from "styled-components"
 import { joinGuildEndpoint } from "../../Endpoints"
@@ -27,6 +27,10 @@ const CreateTeam = () => {
     year: "",
   })
 
+  useEffect(() => {
+    document.title = "ABSCOND • JOIN"
+  })
+
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInput(input => ({ ...input, [e.target.name]: e.target.value }))
 
@@ -47,6 +51,15 @@ const CreateTeam = () => {
     } catch (error: any) {
       setLoading(false)
       setPage(1)
+      setInput({
+        guildCode: "",
+        name: "",
+        email: "",
+        phone: "",
+
+        branch: "",
+        year: "",
+      })
       if (error.response.data.message) {
         return setError(error.response.data.message)
       } else console.log("Error", error.message)

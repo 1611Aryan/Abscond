@@ -40,7 +40,15 @@ const Game = () => {
         </h3>
       </div>
       <div className="rulebook">
-        <h4>View Rulebook</h4>
+        <h4>
+          <a
+            href="https://drive.google.com/file/d/1rCx2zu5C8QD1v6WCvS1zY2tG0kkSpLLy/view"
+            target="_blank"
+            rel="noReferrer"
+          >
+            View Rulebook
+          </a>
+        </h4>
       </div>
 
       <main>

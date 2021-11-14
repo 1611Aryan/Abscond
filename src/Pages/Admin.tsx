@@ -1,8 +1,12 @@
+import { useEffect } from "react"
 import { Outlet } from "react-router"
 import styled from "styled-components"
 import NavBar from "./../Components/Admin/Nav"
 
 const Admin = () => {
+  useEffect(() => {
+    document.title = "ABSCOND • ADMIN"
+  }, [])
   return (
     <StyledAdmin>
       <NavBar />

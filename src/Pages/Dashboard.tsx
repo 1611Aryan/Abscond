@@ -20,6 +20,7 @@ import randomImage from "../Util/images"
 const Dashboard = () => {
   const { guild } = useSelector(selectGuild)
   const [loading, setLoading] = useState(true)
+  const [active, setActive] = useState(false)
 
   const dispatch = useDispatch<AppDispatch>()
   const { socket } = useSocket()
@@ -34,15 +35,16 @@ const Dashboard = () => {
         source.cancel("")
       }, 5000)
       try {
-        const res = await axios[profileEndpoint.method]<{ guild: guild }>(
-          profileEndpoint.url,
-          {
-            withCredentials: true,
-            cancelToken: source.token,
-          }
-        )
+        const res = await axios[profileEndpoint.method]<{
+          guild: guild
+          active: boolean
+        }>(profileEndpoint.url, {
+          withCredentials: true,
+          cancelToken: source.token,
+        })
         clearTimeout(timeOut)
         dispatch(addGuild(res.data.guild))
+        setActive(res.data.active || false)
         setLoading(false)
       } catch (err) {
         dispatch(logout())
@@ -50,6 +52,9 @@ const Dashboard = () => {
         console.error(err)
       }
     })()
+
+    document.title = "ABSCOND • DASHBOARD"
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -71,12 +76,7 @@ const Dashboard = () => {
       </picture>
 
       <Profile guild={guild} />
-      {new Date("Nov 20, 2021 22:00:00").getTime() - new Date().getTime() <=
-      0 ? (
-        <Countdown />
-      ) : (
-        <Game />
-      )}
+      {active ? <Game /> : <Countdown />}
     </StyledDashboard>
   )
 }
