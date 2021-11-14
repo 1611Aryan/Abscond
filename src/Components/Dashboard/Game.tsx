@@ -1,36 +1,29 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { BsCoin } from "react-icons/bs"
 import { GiLightningSaber } from "react-icons/gi"
+import { useDispatch, useSelector } from "react-redux"
+import { changeMoles, selectGuild } from "../../Redux/Slices/guild.slice"
+
+import { AppDispatch } from "../../Redux/store"
+import { useSocket } from "../../Context/socket.provider"
 
 const Game = () => {
-  const [stats] = useState({
-    moles: 150,
-    superPowers: [
-      { name: "Saitama", power: "Question Skip" },
-      {
-        name: "Shinigami eyes",
-        power: "Solution Reveal ",
-      },
-      {
-        name: "Trafalgue d law",
-        power: "Change Question",
-      },
-      {
-        name: "L",
-        power: "Free Hint",
-      },
-      {
-        name: "Tsunade",
-        power: "Gain 20 Moles",
-      },
-    ],
-  })
+  const { guild } = useSelector(selectGuild)
+
+  const { socket } = useSocket()
+  const dispatch = useDispatch<AppDispatch>()
 
   const [game] = useState({
     question:
       "   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi laudantium sapiente, dolor iure dolore harum?",
   })
+
+  useEffect(() => {
+    socket?.on("changeMoles", (amount: number) => dispatch(changeMoles(amount)))
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <StyledGame>
@@ -39,11 +32,11 @@ const Game = () => {
       <div className="stats">
         <h3>
           <BsCoin />
-          <span>Moles: {stats.moles}</span>
+          <span>Moles: {guild.moles}</span>
         </h3>
         <h3>
           <GiLightningSaber />
-          <span>Superpowers: {stats.superPowers.length}</span>
+          <span>Superpowers: {guild.superpowers.length}</span>
         </h3>
       </div>
       <div className="rulebook">

@@ -11,9 +11,12 @@ import { logoutEndpoint } from "../../Endpoints"
 import { RiFileCopyLine } from "react-icons/ri"
 
 import logo_black from "./../../Media/iiche_logo_black.png"
+import { useRef, useState } from "react"
 
 const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
   const dispatch = useDispatch<AppDispatch>()
+
+  const linkRef = useRef<HTMLInputElement>(null)
 
   const logOut = () => {
     axios[logoutEndpoint.method](logoutEndpoint.url, {
@@ -21,6 +24,28 @@ const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
     })
     dispatch(logout())
     dispatch(resetGuild())
+  }
+
+  const copy = () => {
+    if (linkRef) {
+      linkRef.current?.select()
+      linkRef.current?.setSelectionRange(0, 99999)
+      document.execCommand("copy")
+    }
+  }
+
+  const Share = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "Hera Pheri Invite",
+          text: `Join My Guild ${guild?.guildName}`,
+          url: `   https://abscond.com/register/join/${guild.guildCode}`,
+        })
+      } else copy()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -60,9 +85,15 @@ const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
                 <div className="box">
                   <span>
                     https://abscond.com/register/join/{guild.guildCode}
+                    <input
+                      type="text"
+                      value={`   https://abscond.com/register/join/${guild.guildCode}`}
+                      ref={linkRef}
+                      readOnly
+                    />
                   </span>
                 </div>
-                <button>
+                <button onClick={Share}>
                   <RiFileCopyLine />
                 </button>
               </div>
@@ -200,6 +231,10 @@ const StyledProfile = styled.div`
               line-height: 1.2;
               span {
                 font-size: clamp(0.8rem, 2vw, 1.1rem);
+              }
+              input {
+                display: none;
+                visibility: hidden;
               }
             }
             button {

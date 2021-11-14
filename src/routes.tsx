@@ -5,8 +5,12 @@ import JoinTeam from "./Components/Register/JoinTeam"
 import Regsiter from "./Pages/Register"
 import Dashboard from "./Pages/Dashboard"
 import Home from "./Pages/Home"
+import Admin from "./Pages/Admin"
+import AdminLogin from "./Components/Admin/Login"
+import AdminSignup from "./Components/Admin/Signup"
+import AdminDashboard from "./Components/Admin/Dashboard"
 
-const routes = (loggedIn: boolean) => [
+const routes = (loggedIn: boolean, admin: boolean) => [
   {
     path: "register",
     element: loggedIn ? <Navigate to="/dashboard" /> : <Regsiter />,
@@ -29,6 +33,26 @@ const routes = (loggedIn: boolean) => [
   {
     path: "dashboard",
     element: !loggedIn ? <Navigate to="/" /> : <Dashboard />,
+  },
+  {
+    path: "admin",
+    element: loggedIn ? (
+      <Navigate to="/dashboard" />
+    ) : admin ? (
+      <AdminDashboard />
+    ) : (
+      <Admin />
+    ),
+    children: [
+      {
+        index: true,
+        element: <AdminLogin />,
+      },
+      {
+        path: "signup",
+        element: <AdminSignup />,
+      },
+    ],
   },
   {
     path: "*",

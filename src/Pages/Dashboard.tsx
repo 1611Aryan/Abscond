@@ -1,28 +1,28 @@
 import styled from "styled-components"
-import { useDispatch, useSelector } from "react-redux"
-import { addGuild, guild, selectGuild } from "../Redux/Slices/guild.slice"
-
-import bg1_avif from "./../Media/Dashboard/bg1.avif"
-import bg1_webp from "./../Media/Dashboard/bg1.webp"
-import bg1_jpg from "./../Media/Dashboard/bg1.jpg"
-
 import { useEffect, useState } from "react"
 
-import axios from "axios"
-import { profileEndpoint } from "../Endpoints"
+import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../Redux/store"
+import { addGuild, guild, selectGuild } from "../Redux/Slices/guild.slice"
+import { logout } from "../Redux/Slices/authentication.slice"
+
+import axios from "axios"
+
+import { profileEndpoint } from "../Endpoints"
+
 import Profile from "../Components/Dashboard/Profile"
 import LogoLoader from "../Components/Loaders/logo"
-import { logout } from "../Redux/Slices/authentication.slice"
 import Game from "../Components/Dashboard/Game"
-
-//import logo_white from "./../Media/iiche_logo_white.webp"
+import { useSocket } from "../Context/socket.provider"
+import Countdown from "../Components/Dashboard/Countdown"
+import randomImage from "../Util/images"
 
 const Dashboard = () => {
   const { guild } = useSelector(selectGuild)
   const [loading, setLoading] = useState(true)
 
   const dispatch = useDispatch<AppDispatch>()
+  const { socket } = useSocket()
 
   useEffect(() => {
     ;(async () => {
@@ -45,9 +45,21 @@ const Dashboard = () => {
         dispatch(addGuild(res.data.guild))
         setLoading(false)
       } catch (err) {
+        dispatch(logout())
+        setLoading(false)
         console.error(err)
       }
     })()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  //?Socket Setup
+  useEffect(() => {
+    socket?.connect()
+
+    return () => {
+      socket?.disconnect()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -55,14 +67,16 @@ const Dashboard = () => {
     <StyledDashboard>
       {loading && <LogoLoader />}
       <picture className="bg">
-        <source srcSet={bg1_avif} type="image/avif" />
-        <source srcSet={bg1_webp} type="image/webp" />
-        <source srcSet={bg1_jpg} type="image/jpg" />
-        <img src={bg1_jpg} alt="anime battleground" />
+        <img src={randomImage} alt="anime battleground" />
       </picture>
 
       <Profile guild={guild} />
-      <Game />
+      {new Date("Nov 20, 2021 22:00:00").getTime() - new Date().getTime() >=
+      0 ? (
+        <Countdown />
+      ) : (
+        <Game />
+      )}
     </StyledDashboard>
   )
 }
@@ -81,13 +95,14 @@ const StyledDashboard = styled.main`
     width: 120%;
     height: 120%;
     transform: translate(-10%, -10%);
+    background: #444;
     z-index: -1;
     img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: blur(15px) contrast(90%);
+      filter: blur(15px) contrast(90%) saturate(120%);
     }
   }
 `

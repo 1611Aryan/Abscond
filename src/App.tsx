@@ -7,8 +7,8 @@ import { useRoutes } from "react-router"
 
 //? Main App Component
 function App() {
-  const { loggedIn } = useSelector(selectAuthentication)
-  const routing = useRoutes(routes(loggedIn))
+  const { loggedIn, admin } = useSelector(selectAuthentication)
+  const routing = useRoutes(routes(loggedIn, admin))
 
   return <StyledApp>{routing}</StyledApp>
 }

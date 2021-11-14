@@ -9,11 +9,22 @@ export const authenticationSlice = createSlice({
   name: "authenticate",
   initialState: {
     loggedIn: toBool(localStorage.getItem(PREFIXED_KEY)) || false,
+    admin: false,
   },
   reducers: {
     login: state => {
       state.loggedIn = true
       localStorage.setItem(PREFIXED_KEY, JSON.stringify(true))
+    },
+    loginAdmin: state => {
+      state.loggedIn = false
+      state.admin = true
+      localStorage.setItem(PREFIXED_KEY, JSON.stringify(false))
+    },
+    logoutAdmin: state => {
+      state.loggedIn = false
+      state.admin = false
+      localStorage.setItem(PREFIXED_KEY, JSON.stringify(false))
     },
     logout: state => {
       state.loggedIn = false
@@ -22,7 +33,8 @@ export const authenticationSlice = createSlice({
   },
 })
 
-export const { login, logout } = authenticationSlice.actions
+export const { login, logout, loginAdmin, logoutAdmin } =
+  authenticationSlice.actions
 
 export const selectAuthentication = (state: RootState) => state.authentication
 

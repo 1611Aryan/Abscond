@@ -39,3 +39,20 @@ export const logoutEndpoint: Endpoint = {
   url: baseUrl + "/guild/logout",
   method: Method.GET,
 }
+
+export const adminLogin: Endpoint = {
+  url: baseUrl + "/admin/login",
+  method: Method.POST,
+}
+
+export const adminSignup: Endpoint = {
+  url: baseUrl + "/admin/signup",
+  method: Method.POST,
+}
+
+export const SocketEndpoint = {
+  url:
+    process.env.NODE_ENV !== "production"
+      ? "http://localhost:5000"
+      : "https://iiche-abscond.herokuapp.com",
+}
