@@ -5,6 +5,7 @@ import { nanoid } from "nanoid"
 import jwt from "jsonwebtoken"
 import Question from "../Models/question.model"
 import transporter from "../Config/Nodemailer.config"
+import toBool from "../Utilities/toBool"
 
 type controller = (req: Request, res: Response, next?: NextFunction) => {}
 
@@ -78,6 +79,9 @@ export const login: controller = async (req, res) => {
 }
 
 export const createGuild: controller = async (req, res) => {
+  if (!toBool(process.env.REGISTRATION_ACTIVE))
+    return res.status(500).send({ message: "Registrations Have Been Closed" })
+
   const { guildName, password }: GuildI = req.body
   const { name, email, phone, branch, year } = req.body
 
@@ -93,6 +97,11 @@ export const createGuild: controller = async (req, res) => {
   }
 
   try {
+    const numOfTeams = await Guild.countDocuments()
+
+    if (numOfTeams >= parseInt(process.env.MAX_TEAMS))
+      return res.status(500).send({ message: "Registrations Have Been Closed" })
+
     const existingGuild = await Guild.findOne({
       $or: [
         { guildName },
@@ -127,6 +136,12 @@ export const createGuild: controller = async (req, res) => {
       guildCode: nanoid(12),
       password,
       leader,
+      logs: [
+        {
+          logtype: "create",
+          message: `Guild ${guildName} created by ${name} on ${new Date().toLocaleString()}`,
+        },
+      ],
       // questions,
     })
 
@@ -168,6 +183,9 @@ Team IIChE TIET
 }
 
 export const verifyCodeAndMember: controller = async (req, res, next) => {
+  if (!toBool(process.env.TEAMMATES_JOIN))
+    return res.status(500).send({ message: "Registrations Have Been Closed" })
+
   const { guildCode, name, email, phone, branch, year } = req.body
   if (!guildCode || !email || !phone || !name || !year || !branch)
     return res.sendStatus(400)
@@ -216,7 +234,13 @@ export const joinGuild: controller = async (req, res) => {
     await Guild.findOneAndUpdate(
       { guildCode },
       {
-        $push: { members: member },
+        $push: {
+          members: member,
+          logs: {
+            logtype: "join",
+            message: `${name} joined on ${new Date().toLocaleString()}`,
+          },
+        },
       }
     )
     return res.status(200).send("Guild Joined Successfully")

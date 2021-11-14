@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import Guild, { GuildI } from "../Models/guild.model"
-
-import jwt from "jsonwebtoken"
+import toBool from "../Utilities/toBool"
 
 interface Req extends Request {
   guildId: string
@@ -28,7 +27,10 @@ export const getProfile: controller = async (req, res) => {
     const guild = await Guild.findOne({ _id: id }).lean()
     if (!guild || !guild.allowed) return res.clearCookie("jwt").sendStatus(400)
     const payload = genPayload(guild)
-    return res.status(200).send({ guild: payload })
+    return res.status(200).send({
+      guild: payload,
+      active: toBool(process.env.GAME_ACTIVE) || false,
+    })
   } catch (err) {
     console.error({ getProfile: err })
     return res.status(500).send(err)
