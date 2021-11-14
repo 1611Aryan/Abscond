@@ -116,33 +116,33 @@ export const createGuild: controller = async (req, res) => {
         .status(400)
         .send("Guild Name not Available/You are already part of a guild")
 
-    const questions = await generateQuestions()
-    if (!questions)
-      res
-        .status(500)
-        .send({ message: "Something went wrong! Please try again later" })
+    // const questions = await generateQuestions()
+    // if (!questions)
+    //   res
+    //     .status(500)
+    //     .send({ message: "Something went wrong! Please try again later" })
 
     await Guild.create({
       guildName,
       guildCode: nanoid(12),
       password,
       leader,
-      questions,
+      // questions,
     })
 
     const options = {
       from: process.env.NODEMAILER_SENDER,
       to: email,
-      subject: "IIChE TIET Recruitments",
+      subject: "Guild Successfully Created",
       html: `
       Hello ${name},
 <br />
 <br />
 We hope that you and your family are doing great during this pandemic.
 <br />
-This mail is to confirm that your guild has successfully been created
+This mail is to confirm that your guild "${guildName}" has successfully been created
 <br /><br />
-We recommend you to stay active on your gmail and WhatsApp.
+We recommend you to stay active on your Mail and WhatsApp.
 <br /><br />
 See you on 20th
 <br /><br />
