@@ -12,6 +12,9 @@ type controller = (req: Req, res: Response, next?: NextFunction) => {}
 const genPayload = (guild: GuildI) => ({
   guildName: guild.guildName,
   guildCode: guild.guildCode,
+  moles: guild.moles,
+  hints: guild.hints,
+  superpowers: guild.superpowers,
   leader: {
     name: guild.leader.name,
   },

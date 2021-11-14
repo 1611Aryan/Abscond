@@ -12,6 +12,10 @@ interface personI {
 export type GuildI = {
   guildName: string
   guildCode: string
+  moles: number
+  hints: boolean[]
+  superpowers: { name: string; info: string }[]
+  questions: { id: string }[]
   allowed: boolean
   password: string
   leader: personI
@@ -38,9 +42,26 @@ const GuildSchema = new Schema<GuildI>(
       required: true,
       unique: true,
     },
+    moles: { type: Number, default: 150 },
+    hints: {
+      type: [Boolean],
+      default: Array(15)
+        .fill(1)
+        .map(() => true),
+      _id: false,
+    },
+    superpowers: {
+      type: [{ name: String, info: String }],
+      default: [],
+      _id: false,
+    },
     allowed: {
       type: Boolean,
       default: true,
+    },
+    questions: {
+      type: [{ id: String }],
+      required: true,
     },
     password: {
       type: String,

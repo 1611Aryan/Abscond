@@ -1,47 +1,57 @@
 import Express from "express"
-import helmet from "helmet"
-import morgan from "morgan"
-import cors from "cors"
-import cookieParser from "cookie-parser"
-import mongoose, { ConnectOptions } from "mongoose"
-import { config } from "dotenv"
-import PublicRouter from "./Routes/public.routes"
-import ProtectedRouter from "./Routes/protected.routes"
-import { verifyToken } from "./Middlewares/verifyToken"
+import { config as envConfig } from "dotenv"
+import http = require("http")
+import cookie from "cookie"
 
-const app = Express()
+import ExpressConfig from "./Config/Express.config"
+import MongoConfig from "./Config/Mongo.config"
+import RoutesConfig from "./Config/Routes.Config"
+import SocketConfig from "./Config/Socket.config"
+import { verify } from "jsonwebtoken"
 
 const PORT = process.env.PORT || 5000
 
-app.use(Express.urlencoded({ extended: true }))
-app.use(Express.json())
-app.use(
-  cors({
-    origin:
-      process.env.NODE_ENV !== "production"
-        ? "http://localhost:3000"
-        : "https://abscond.netlify.app",
-    credentials: true,
-  })
-)
-app.use(helmet())
-app.use(morgan("dev"))
-app.use(cookieParser())
-config()
+const app = Express()
+ExpressConfig(app)
+envConfig()
+MongoConfig()
 
-const MongoURI = process.env.MONGODB_URI
+const server = http.createServer(app)
 
-const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+const io = SocketConfig(server)
 
-mongoose.connect(MongoURI, mongoOptions as ConnectOptions)
+io.on("connection", socket => {
+  console.log("User connected")
 
-const connection = mongoose.connection
+  const cookies = cookie.parse(socket.request.headers.cookie || "")
+  const token = cookies.jwt
+  if (token) {
+    const { id: room } = verify(token, process.env.JWT_SECRET) as { id: string }
+    if (room) socket.join(room)
 
-connection.once("open", () =>
-  console.log("\x1b[36mDatabase is Connected\x1b[0m")
-)
+    socket.on("changeMoles", ({ room, amount }) => {
+      console.count("Emitted")
+      io.to(room).emit("changeMoles", amount)
+    })
 
-app.use("/", PublicRouter)
-app.use("/guild", verifyToken, ProtectedRouter)
+    socket.on(
+      "addSuperPower",
+      ({ name, info }: { name: string; info: string }) => {
+        io.to(room).emit("addSuperPower", { name, info })
+      }
+    )
 
-app.listen(PORT, () => console.log(`Server Running On Port ${PORT}`))
+    socket.on(
+      "removeSuperPower",
+      ({ name, info }: { name: string; info: string }) => {
+        io.to(room).emit("removeSuperPower", { name, info })
+      }
+    )
+  }
+
+  socket.on("disconnect", () => console.log("Disconnected"))
+})
+
+RoutesConfig(app)
+
+server.listen(PORT, () => console.log(`Server Running On Port ${PORT}`))

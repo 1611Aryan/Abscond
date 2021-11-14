@@ -3,6 +3,8 @@ import Guild, { GuildI } from "../Models/guild.model"
 import bcrypt from "bcrypt"
 import { nanoid } from "nanoid"
 import jwt from "jsonwebtoken"
+import Question from "../Models/question.model"
+import transporter from "../Config/Nodemailer.config"
 
 type controller = (req: Request, res: Response, next?: NextFunction) => {}
 
@@ -19,17 +21,30 @@ export const getGuilds: controller = async (req, res) => {
 const genPayload = (guild: GuildI) => ({
   guildName: guild.guildName,
   guildCode: guild.guildCode,
+  moles: guild.moles,
+  hints: guild.hints,
+  superpowers: guild.superpowers,
   leader: {
     name: guild.leader.name,
   },
   members: guild.members.map(member => ({ name: member.name })),
 })
 
+const generateQuestions = async () => {
+  const questions = await Question.findOne({}).lean()
+  if (!questions) return false
+
+  return questions.all.map(ques => {
+    const length = ques.questions.length
+    return ques.questions[Math.floor(Math.random() * length)].id || false
+  })
+}
+
 export const login: controller = async (req, res) => {
   const errMessage = "Incorrect Guild Name or Password"
   const successMessage = "Login Successfull"
   const { guildName, password } = req.body
-  console.log({ guildName, password })
+
   if (!guildName || !password)
     return res.status(400).send({ message: errMessage })
   try {
@@ -96,17 +111,54 @@ export const createGuild: controller = async (req, res) => {
       ],
     }).lean()
 
-    if (existingGuild && false)
+    if (existingGuild)
       return res
         .status(400)
         .send("Guild Name not Available/You are already part of a guild")
 
-    const guild = await Guild.create({
+    const questions = await generateQuestions()
+    if (!questions)
+      res
+        .status(500)
+        .send({ message: "Something went wrong! Please try again later" })
+
+    await Guild.create({
       guildName,
       guildCode: nanoid(12),
       password,
       leader,
+      questions,
     })
+
+    const options = {
+      from: process.env.NODEMAILER_SENDER,
+      to: email,
+      subject: "IIChE TIET Recruitments",
+      html: `
+      Hello ${name},
+<br />
+<br />
+We hope that you and your family are doing great during this pandemic.
+<br />
+This mail is to confirm that your guild has successfully been created
+<br /><br />
+We recommend you to stay active on your gmail and WhatsApp.
+<br /><br />
+See you on 20th
+<br /><br />
+If you have any query you can contact the following people
+<br />
+Parth Sood (GenSec) : 7986810284
+<br />
+Anushka Khera(GenSec) : 7428265269
+<br />
+Or simply reply to this mail thread
+<br /><br />
+Regards
+Team IIChE TIET
+      `,
+    }
+    transporter.sendMail(options)
 
     return res.status(200).send("Guild Created")
   } catch (err) {
