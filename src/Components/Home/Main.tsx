@@ -13,9 +13,18 @@ const Main: React.FC<{
         <h1>Abscond</h1>
 
         <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium,
-          temporibus perspiciatis. Commodi fuga veniam excepturi blanditiis iure
-          eaque, perspiciatis necessitatibus.
+          The ultimate event where participants will be divided into teams of 5,
+          hypothetically trapped in a room. For escaping the room you will have
+          to solve various types of mysteries to unlock your next level. Escape
+          first to&nbsp;
+          <span className="win">
+            <span>W</span>
+            <span>i</span>
+            <span>n</span>
+          </span>
+          .
+          <br />
+          <span> “Turn your ultra instinct on”.</span>
         </p>
 
         <button onClick={openModal}>Login</button>
@@ -61,6 +70,34 @@ const StyledMain = styled.section`
     p {
       font-size: clamp(1rem, 3vw, 1.75rem);
       z-index: 2;
+      span {
+        color: lavenderblush;
+      }
+      .win {
+        span {
+          display: inline-block;
+          :nth-of-type(1) {
+            animation: jump 300ms ease-out infinite alternate;
+          }
+          :nth-of-type(2) {
+            animation: jump 300ms ease-out 100ms infinite alternate;
+          }
+          :nth-of-type(3) {
+            animation: jump 300ms ease-out 200ms infinite alternate;
+          }
+        }
+      }
+      @keyframes jump {
+        from {
+          transform: translateY(5px);
+        }
+        50% {
+          animation-timing-function: ease-in;
+        }
+        to {
+          transform: translateY(-5px);
+        }
+      }
     }
 
     button {
@@ -108,12 +145,12 @@ const StyledMain = styled.section`
 
   @media only screen and (max-width: 500px) {
     .content {
-      width: 80%;
+      width: 90%;
     }
 
     .circle {
       z-index: 2;
-      background-color: hsla(160, 60%, 55%, 0.6);
+      background-color: hsla(160, 60%, 55%, 0.8);
     }
 
     picture {

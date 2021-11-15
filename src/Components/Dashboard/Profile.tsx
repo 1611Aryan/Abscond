@@ -30,7 +30,7 @@ const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
     if (linkRef) {
       linkRef.current?.select()
       linkRef.current?.setSelectionRange(0, 99999)
-      document.execCommand("copy")
+      navigator.clipboard.writeText("copyText.value")
     }
   }
 
@@ -40,9 +40,10 @@ const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
         await navigator.share({
           title: "Abscond Guild Invite",
           text: `Join My Guild ${guild?.guildName}`,
-          url: `   https://abscond.com/register/join/${guild.guildCode}`,
+          url: `   https://abscond.netlify.app/register/join/${guild.guildCode}`,
         })
-      } else copy()
+      }
+      copy()
     } catch (err) {
       console.log(err)
     }
@@ -84,10 +85,10 @@ const Profile: React.FC<{ guild: guild }> = ({ guild }) => {
               <div className="link">
                 <div className="box">
                   <span>
-                    https://abscond.com/register/join/{guild.guildCode}
+                    https://abscond.netlify.app/register/join/{guild.guildCode}
                     <input
                       type="text"
-                      value={`   https://abscond.com/register/join/${guild.guildCode}`}
+                      value={`   https://abscond.netlify.app/register/join/${guild.guildCode}`}
                       ref={linkRef}
                       readOnly
                     />

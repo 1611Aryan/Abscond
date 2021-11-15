@@ -36,11 +36,11 @@ function Sponsors() {
       name: "PAPER NEST",
       link: "http://papernest.in/",
     },
-    {
-      img: build_webp,
-      name: "BUILD GEEKS",
-      link: "https://www.buildgeeks.in/",
-    },
+    // {
+    //   img: build_webp,
+    //   name: "BUILD GEEKS",
+    //   link: "https://www.buildgeeks.in/",
+    // },
   ]
 
   return (

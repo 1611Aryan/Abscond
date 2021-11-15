@@ -15,10 +15,8 @@ function ContactUs() {
 
       <div className="content">
         <div className="info">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit unde
-          obcaecati mollitia consequuntur accusamus vel ab pariatur nulla, minus
-          deleniti, nam asperiores, accusantium quis maiores? Repellendus
-          placeat enim, id fuga asperiores commodi labore excepturi eos.
+          Our members are present at every nook and corner ,but if your night
+          vision goggles freak you out ,here’s some other ways to reach us.
         </div>
         <div className="contact">
           <ul>
@@ -42,36 +40,28 @@ function ContactUs() {
           target="_blank"
           rel="noreferrer"
         >
-          <div className="group">
-            <BsInstagram className="Instagram" />
-          </div>
+          <BsInstagram />
         </a>
         <a
           href="https://twitter.com/IIChE_TIET"
           target="_blank"
           rel="noreferrer"
         >
-          <div className="group">
-            <BsTwitter className="Twitter" />
-          </div>
+          <BsTwitter />
         </a>
         <a
           href="https://www.facebook.com/iiche.tiet"
           target="_blank"
           rel="noreferrer"
         >
-          <div className="group">
-            <BsFacebook className="Facebook" />
-          </div>
+          <BsFacebook />
         </a>
         <a
           href="https://www.linkedin.com/company/indian-institute-of-chemical-engineers-iiche-tiet/mycompany/"
           target="_blank"
           rel="noreferrer"
         >
-          <div className="group">
-            <BsLinkedin className="Linkedin" />
-          </div>
+          <BsLinkedin />
         </a>
       </div>
       <picture>
@@ -134,6 +124,14 @@ const StyledContactUs = styled.div`
     display: flex;
     justify-content: space-between;
     width: 20%;
+
+    > * {
+      transition: all 200ms;
+      &:hover {
+        transform: scale(1.2);
+        color: #303030;
+      }
+    }
   }
   picture {
     position: absolute;
@@ -141,6 +139,18 @@ const StyledContactUs = styled.div`
     width: 20%;
     right: 0;
     overflow: hidden;
+
+    animation: woof 600ms linear infinite alternate;
+
+    @keyframes woof {
+      from {
+        transform: rotate(8deg);
+      }
+
+      to {
+        transform: rotate(12deg);
+      }
+    }
 
     img {
       display: block;

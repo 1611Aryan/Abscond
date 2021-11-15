@@ -13,7 +13,10 @@ function Prizes() {
       </picture>
       <div className="color1"></div>
       <h2>Prizes</h2>
-      <div className="prize">
+
+      <h4>To Be Revealed Soon!!!!</h4>
+
+      {/* <div className="prize">
         <div className="head">
           <h3>FIRST</h3>
           <div className="money">&#8377;5000</div>
@@ -26,7 +29,7 @@ function Prizes() {
           <h3>THIRD</h3>
           <div className="money">&#8377;1500</div>
         </div>
-      </div>
+      </div> */}
     </StyledPrizes>
   )
 }
@@ -37,7 +40,8 @@ const StyledPrizes = styled.div`
   overflow: hidden;
   position: relative;
   display: flex;
-  justify-content: space-evenly;
+  //justify-content: space-evenly;
+  justify-content: center;
   align-items: flex-start;
   flex-direction: column;
 
@@ -74,6 +78,15 @@ const StyledPrizes = styled.div`
     padding: 0 var(--left);
     font-weight: 500;
     font-size: clamp(3rem, 5vw, 5rem);
+  }
+
+  h4 {
+    width: 100%;
+    z-index: 2;
+    color: #000;
+    padding: 0 var(--padding) 0 var(--left);
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 4rem);
   }
 
   .prize {
@@ -125,6 +138,7 @@ const StyledPrizes = styled.div`
       top: auto;
       bottom: 5%;
       width: 65%;
+      filter: contrast(80%);
     }
 
     .color1 {
@@ -135,6 +149,11 @@ const StyledPrizes = styled.div`
       height: 350px;
     }
     h2 {
+      text-align: right;
+    }
+    h4 {
+      align-self: flex-end;
+      width: 80%;
       text-align: right;
     }
     .prize {

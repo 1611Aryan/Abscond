@@ -11,13 +11,31 @@ const Navbar = () => {
     background: "none",
     logo: logo_black,
     nav: true,
-    button: {
-      text: "Register",
-      link: "/register",
-    },
+    buttons: [
+      {
+        text: "Register",
+        link: "/register",
+      },
+    ],
   })
 
   useEffect(() => {
+    if (location.pathname === "/register") {
+      return setScheme(scheme => ({
+        ...scheme,
+        color: "#fff",
+        logo: logo_white,
+        //background: " linear-gradient(#000, transparent)",
+        nav: false,
+        buttons: [
+          {
+            text: "Login",
+            link: "/",
+          },
+        ],
+      }))
+    }
+
     const regex = /\b(register\w*)\b/
     if (regex.test(location.pathname))
       setScheme(scheme => ({
@@ -26,10 +44,16 @@ const Navbar = () => {
         logo: logo_white,
         //background: " linear-gradient(#000, transparent)",
         nav: false,
-        button: {
-          text: "Login",
-          link: "/",
-        },
+        buttons: [
+          {
+            text: "Register",
+            link: "/register",
+          },
+          {
+            text: "Login",
+            link: "/",
+          },
+        ],
       }))
   }, [location])
 
@@ -56,9 +80,13 @@ const Navbar = () => {
             </a>
           </ul>
         )}
-        <Link to={scheme.button.link}>
-          <button>{scheme.button.text}</button>
-        </Link>
+        <div className="buttons">
+          {scheme.buttons.map((button, index) => (
+            <Link key={index} to={button.link}>
+              <button>{button.text}</button>
+            </Link>
+          ))}
+        </div>
       </nav>
     </StyledNav>
   )
@@ -116,6 +144,12 @@ const StyledNav = styled.header`
       li {
         font-size: clamp(0.7rem, 2vw, 1.1rem);
         margin-right: clamp(0.5rem, 2vw, 2rem);
+      }
+    }
+
+    .buttons {
+      > * + * {
+        margin-left: clamp(0.5rem, 2vw, 2rem);
       }
     }
     button {
