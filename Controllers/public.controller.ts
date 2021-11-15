@@ -103,6 +103,8 @@ export const login: controller = async (req, res) => {
 }
 
 export const createGuild: controller = async (req, res) => {
+  console.log(!toBool(process.env.REGISTRATION_ACTIVE))
+
   if (!toBool(process.env.REGISTRATION_ACTIVE))
     return res.status(500).send({ message: "Registrations Have Been Closed" })
 
