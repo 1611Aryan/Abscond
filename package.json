@@ -33,6 +33,7 @@
   "scripts": {
     "start": "cd build && node index.js",
     "dev": "tsnd --respawn index.ts",
-    "build": "yarn tsc -p ."
+    "buildMedia": "cd build && mkdir Media && cd .. &&  cp Media/*.png build/Media && cp Media/*.webp build/Media",
+    "build": "yarn tsc -p . && yarn buildMedia "
   }
 }
