@@ -8,7 +8,9 @@ import Home from "./Pages/Home"
 import Admin from "./Pages/Admin"
 import AdminLogin from "./Components/Admin/Login"
 import AdminSignup from "./Components/Admin/Signup"
-import AdminDashboard from "./Components/Admin/Dashboard"
+
+import AdminControlPanel from "./Pages/AdminControlPanel"
+import Leaderboard from "./Pages/Leaderboard"
 
 const routes = (loggedIn: boolean, admin: boolean) => [
   {
@@ -31,6 +33,10 @@ const routes = (loggedIn: boolean, admin: boolean) => [
     ],
   },
   {
+    path: "leaderboard",
+    element: loggedIn ? <Navigate to="/dashboard" /> : <Leaderboard />,
+  },
+  {
     path: "dashboard",
     element: !loggedIn ? <Navigate to="/" /> : <Dashboard />,
   },
@@ -39,7 +45,7 @@ const routes = (loggedIn: boolean, admin: boolean) => [
     element: loggedIn ? (
       <Navigate to="/dashboard" />
     ) : admin ? (
-      <AdminDashboard />
+      <AdminControlPanel />
     ) : (
       <Admin />
     ),

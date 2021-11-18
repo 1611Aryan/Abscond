@@ -8,6 +8,7 @@ export type guild = {
   moles: number
   hints: boolean[]
   superpowers: { name: string; info: string }[]
+  questionNo: number
   leader: { name: string }
   members: { name: string }[]
 }
@@ -19,6 +20,7 @@ const initialState = {
     moles: 0,
     hints: [],
     superpowers: [],
+    questionNo: 1,
     leader: {
       name: "",
     },

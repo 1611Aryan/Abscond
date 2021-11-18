@@ -50,6 +50,31 @@ export const adminSignup: Endpoint = {
   method: Method.POST,
 }
 
+export const GuildByName: Endpoint = {
+  url: baseUrl + "/admin/guildByName",
+  method: Method.POST,
+}
+
+export const BuyHint: Endpoint = {
+  url: baseUrl + "/admin/buyHint",
+  method: Method.POST,
+}
+
+export const UseSuperpowers: Endpoint = {
+  url: baseUrl + "/admin/useSuperpower",
+  method: Method.POST,
+}
+
+export const trade: Endpoint = {
+  url: baseUrl + "/admin/trade",
+  method: Method.POST,
+}
+
+export const leaderboard: Endpoint = {
+  url: baseUrl + "/leaderboard",
+  method: Method.GET,
+}
+
 export const SocketEndpoint = {
   url:
     process.env.NODE_ENV !== "production"
