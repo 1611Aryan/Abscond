@@ -253,3 +253,19 @@ export const joinGuild: controller = async (req, res) => {
     return res.status(500).send(err)
   }
 }
+
+export const leaderboard: controller = async (req, res) => {
+  try {
+    const guilds =
+      (await Guild.find(
+        {},
+        { guildName: 1, moles: 1, superpowers: 1 },
+        { $orderby: { moles: -1 } }
+      ).lean()) || []
+
+    return res.status(200).send({ guilds })
+  } catch (err) {
+    console.log({ leaderboard: err })
+    return res.status(500).send(err)
+  }
+}

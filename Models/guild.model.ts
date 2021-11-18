@@ -17,6 +17,7 @@ export type GuildI = {
   superpowers: { name: string; info: string }[]
   logs: { logtype: string; message: string }[]
   questions: { id: string }[]
+  questionNo: number
   allowed: boolean
   password: string
   leader: personI
@@ -70,6 +71,10 @@ const GuildSchema = new Schema<GuildI>(
       required: true,
       _id: false,
     },
+    questionNo: {
+      type: Number,
+      default: 1,
+    },
     password: {
       type: String,
       required: true,
@@ -95,6 +100,6 @@ GuildSchema.pre("save", async function (next) {
   next()
 })
 
-const Guild = model<GuildI & Document>("Guild", GuildSchema)
+const Guild = model<Document & GuildI>("Guild", GuildSchema)
 
 export default Guild
