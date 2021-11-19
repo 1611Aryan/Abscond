@@ -9,7 +9,7 @@ import build_webp from "./../../Media/Home/Sponsors/build.webp"
 
 import gmc_webp from "./../../Media/Home/Sponsors/gmc.webp"
 
-import grabOn_webp from "./../../Media/Home/Sponsors/grabOn.webp"
+import grabOn_png from "./../../Media/Home/Sponsors/grabOn.png"
 
 import paperNest_webp from "./../../Media/Home/Sponsors/paperNest.webp"
 
@@ -26,7 +26,7 @@ function Sponsors() {
       link: "https://givemycertificate.com/",
     },
     {
-      img: grabOn_webp,
+      img: grabOn_png,
       name: "GRAB ON",
       title: "OUR SAVING PARTNER",
       link: "https://www.grabon.in/",
