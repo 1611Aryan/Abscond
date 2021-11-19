@@ -6,6 +6,7 @@ import {
   verifyCodeAndMember,
   joinGuild,
   leaderboard,
+  changePassword,
 } from "../Controllers/public.controller"
 
 const router = Router()
@@ -20,4 +21,6 @@ router.route("/joinGuild").post(verifyCodeAndMember, joinGuild)
 
 router.route("/leaderboard").get(leaderboard)
 
+process.env.NODE_ENV !== "production" &&
+  router.post("/changePassword", changePassword)
 export default router

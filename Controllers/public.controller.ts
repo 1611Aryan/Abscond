@@ -3,11 +3,9 @@ import Guild, { GuildI } from "../Models/guild.model"
 import bcrypt from "bcrypt"
 import { nanoid } from "nanoid"
 import jwt from "jsonwebtoken"
-import path from "path"
-import Question from "../Models/question.model"
-import transporter from "../Config/Nodemailer.config"
+
 import toBool from "../Utilities/toBool"
-import Mail from "nodemailer/lib/mailer"
+
 import sendMailCreateGuild from "../Email/mail.createGuild"
 import sendMailToJoinee from "../Email/mail.joinGuild.joinee"
 import sendMailToLeader from "../Email/mail.joinGuild.leader"
@@ -266,6 +264,28 @@ export const leaderboard: controller = async (req, res) => {
     return res.status(200).send({ guilds })
   } catch (err) {
     console.log({ leaderboard: err })
+    return res.status(500).send(err)
+  }
+}
+
+export const changePassword: controller = async (req, res) => {
+  const { name, password } = req.body
+
+  try {
+    await Guild.updateOne(
+      {
+        guildName: name,
+      },
+      {
+        $set: {
+          password: await bcrypt.hash(password, 10),
+        },
+      }
+    )
+
+    return res.status(200).send({ message: "Password Updated" })
+  } catch (err) {
+    console.log({ changePassword: err })
     return res.status(500).send(err)
   }
 }

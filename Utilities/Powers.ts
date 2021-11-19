@@ -23,15 +23,15 @@ const powers = {
 
 export const isPower = (power: string) =>
   power === "tsunade" ||
-  power === " l_lawliet" ||
-  power === " trafalgar_d_law" ||
+  power === " l lawliet" ||
+  power === " trafalgar d law" ||
   power === "luffy" ||
   power === "saitama"
 
 export const calculateCost = (power: string) => {
   if (power === "tsunade") return 20
-  if (power === " l_lawliet") return 30
-  if (power === " trafalgar_d_law") return 45
+  if (power === " l lawliet") return 30
+  if (power === " trafalgar d law") return 45
   if (power === "luffy") return 55
   return 70
 }
