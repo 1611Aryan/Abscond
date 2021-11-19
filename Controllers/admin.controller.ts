@@ -5,7 +5,7 @@ import bcrypt from "bcrypt"
 import Admin, { AdminI } from "../Models/admin.model"
 import toBool from "../Utilities/toBool"
 
-import powers from "../Utilities/Powers"
+import powers, { calculateCost, isPower } from "../Utilities/Powers"
 
 type controller = (req: Request, res: Response, next?: NextFunction) => {}
 
@@ -69,7 +69,7 @@ export const guildByName: controller = async (req, res) => {
 export const updateGuild: controller = async (req, res) => {
   try {
     console.log("ran")
-    await Guild.updateMany({}, { $set: { questionNo: 1 } })
+    await Guild.updateMany({}, { $set: { bonusActive: false } })
   } catch (err) {
     console.log(err)
   }
@@ -121,7 +121,7 @@ export const buyHint: controller = async (req, res) => {
 const powerExists = (
   superpowers: {
     name: string
-    info: string
+    info?: string
   }[],
   power: string
 ) => {
@@ -132,6 +132,73 @@ const powerExists = (
   })
 
   return exists
+}
+
+export const buySuperpower: controller = async (req, res) => {
+  if (!toBool(process.env.GAME_ACTIVE))
+    return res.status(403).send({ message: "The Game Has Not Started Yet." })
+
+  const name = ((req.body.name as string) || "").trim()
+  const power = ((req.body.power as string) || "").trim().toLowerCase()
+
+  if (!isPower(power))
+    return res
+      .status(400)
+      .send({ message: "No Such Power Exists.\nCheck Your Spellings" })
+
+  try {
+    const guild = await Guild.findOne({ guildName: name })
+    if (!guild)
+      return res.status(404).send({
+        message: "Guild Not Found.\nPlease Enter Correct Guild Name.",
+      })
+
+    if (guild.questionNo >= 15)
+      return res
+        .status(403)
+        .send({ message: "Can't Use The Power On Last Question" })
+
+    if (guild.questionNo < 4)
+      return res
+        .status(403)
+        .send({ message: "Superpowers can only be bought after level 3" })
+
+    if (
+      powerExists(guild.superpowers, power) ||
+      powerExists(guild.usedPowers, power)
+    )
+      return res
+        .status(400)
+        .send({ message: "Guild Already has/used the requested power" })
+
+    if (guild.moles < calculateCost(power))
+      return res.status(400).send({ message: "Insuficient Moles" })
+
+    await guild.update({
+      $push: {
+        superpowers:
+          powers[
+            (power as "saitama") ||
+              "tsunade" ||
+              "luffy" ||
+              "l_lawliet" ||
+              "trafalgar_d_law"
+          ],
+        logs: {
+          logtype: "superpower",
+          message: `Superpower ${power} bought for ${calculateCost(
+            power
+          )}moles on ${new Date().toLocaleString()}`,
+        },
+      },
+      $inc: { moles: -1 * calculateCost(power) },
+    })
+
+    return res.status(200).send({ message: "Superpower Bought" })
+  } catch (err) {
+    console.log({ buySuperpower: err })
+    return res.status(500).send(err)
+  }
 }
 
 export const useSuperpowers: controller = async (req, res) => {
@@ -192,6 +259,7 @@ const useSaitama = async (guild: any, power: string) => {
             logtype: "superpower",
             message: `Superpower ${power} used on ${new Date().toLocaleString()} `,
           },
+          usedPowers: { name: power },
         },
       }
     )
@@ -216,6 +284,7 @@ const useLuffy = async (guild: any, power: string) => {
             logtype: "superpower",
             message: `Superpower ${power} used on ${new Date().toLocaleString()} `,
           },
+          usedPowers: { name: power },
         },
       }
     )
@@ -258,6 +327,7 @@ const useTDL = async (guild: any, power: string) => {
             logtype: "superpower",
             message: `Superpower ${power} used on ${new Date().toLocaleString()} `,
           },
+          usedPowers: { name: power },
         },
       }
     )
@@ -287,6 +357,7 @@ const useLL = async (guild: any, power: string) => {
             logtype: "superpower",
             message: `Superpower ${power} used on ${new Date().toLocaleString()} `,
           },
+          usedPowers: { name: power },
         },
       }
     )
@@ -306,13 +377,14 @@ const useTsunade = async (guild: any, power: string) => {
           superpowers: { name: power },
         },
         $inc: {
-          moles: 25,
+          moles: 35,
         },
         $push: {
           logs: {
             logtype: "superpower",
             message: `Superpower ${power} used on ${new Date().toLocaleString()} `,
           },
+          usedPowers: { name: power },
         },
       }
     )
@@ -324,6 +396,8 @@ const useTsunade = async (guild: any, power: string) => {
 }
 
 export const trade: controller = async (req, res) => {
+  if (!toBool(process.env.GAME_ACTIVE))
+    return res.status(403).send({ message: "The Game Has Not Started Yet." })
   //Gaining Power Losing Moles
   const name1 = ((req.body.name1 as string) || "").trim()
   //Losing Power Gaining Moles
@@ -344,10 +418,23 @@ export const trade: controller = async (req, res) => {
         message: "Guild Not Found.\nPlease Enter Correct Guild Name.",
       })
 
+    if (guild1.questionNo === 15 || guild2.questionNo === 15)
+      return res.status(403).send({
+        message: "Can't Trade with a guild at last Question",
+      })
+
     if (!powerExists(guild2.superpowers, power))
       return res
         .status(400)
         .send({ message: "The Guild Doesn't have the requested superpower" })
+    if (
+      powerExists(guild1.superpowers, power) ||
+      powerExists(guild1.usedPowers, power)
+    )
+      return res
+        .status(400)
+        .send({ message: "Guild Already has/used the requested power" })
+
     if (guild1.moles < price)
       return res
         .status(400)
@@ -385,6 +472,162 @@ export const trade: controller = async (req, res) => {
     return res.status(200).send({ message: "Trading Successfull" })
   } catch (err) {
     console.log({ trade: err })
+    return res.status(500).send(err)
+  }
+}
+
+export const bonusLevel: controller = async (req, res) => {
+  if (!toBool(process.env.GAME_ACTIVE))
+    return res.status(403).send({ message: "The Game Has Not Started Yet." })
+
+  const name = ((req.body.name as string) || "").trim()
+  const option = ((req.body.option as string) || "").trim().toLowerCase()
+
+  console.log(option, option !== "moles" && option !== "superpowers")
+
+  if (option !== "moles" && option !== "superpowers")
+    return res.status(400).send({ message: "Choose a valid option" })
+
+  try {
+    const guild = await Guild.findOne({ guildName: name })
+    if (!guild)
+      return res.status(404).send({
+        message: "Guild Not Found.\nPlease Enter Correct Guild Name.",
+      })
+
+    if (guild.bonusActive)
+      return res.status(400).send({ message: "Already on Bonus Level" })
+
+    if (guild.questionNo % 3 !== 1 && guild.questionNo !== 1)
+      return res
+        .status(400)
+        .send({ message: "Can't Activate Bonus Question on this Level" })
+
+    if (!guild.bonusLevel[(guild.questionNo - 1) / 3 - 1])
+      return res
+        .status(400)
+        .send({ message: "Already Used The Bonus Level for this stage" })
+
+    await guild.update({
+      $set: {
+        [`bonusLevel.${(guild.questionNo - 1) / 3 - 1}`]: false,
+        bonusActive: true,
+      },
+      $push: {
+        logs: {
+          logtype: "bonus",
+          message: `Bonus Level ${
+            (guild.questionNo - 1) / 3
+          } Activated on ${new Date().toLocaleString()}`,
+        },
+      },
+    })
+    return res
+      .status(200)
+      .send({ message: "Bonus Level Activated.\n Reveal the Question" })
+  } catch (err) {
+    console.log({ bonusLevel: err })
+    return res.status(500).send(err)
+  }
+}
+
+export const award: controller = async (req, res) => {
+  if (!toBool(process.env.GAME_ACTIVE))
+    return res.status(403).send({ message: "The Game Has Not Started Yet." })
+
+  const name = ((req.body.name as string) || "").trim()
+  const option = ((req.body.option as string) || "").trim().toLowerCase()
+  const power = ((req.body.power as string) || "").trim().toLowerCase()
+
+  if (!isPower(power))
+    return res
+      .status(400)
+      .send({ message: "No Such Power Exists.\nCheck Your Spellings" })
+
+  if (option !== "moles" && option !== "superpowers")
+    return res.status(400).send({ message: "Choose a valid option" })
+
+  try {
+    const guild = await Guild.findOne({ guildName: name })
+    if (!guild)
+      return res.status(404).send({
+        message: "Guild Not Found.\nPlease Enter Correct Guild Name.",
+      })
+
+    if (!guild.bonusActive)
+      return res.status(400).send({ message: "Not On Bonus Level" })
+
+    if (option === "moles")
+      await guild.update({
+        $inc: {
+          moles: 25,
+        },
+        $set: { bonusActive: false },
+        $push: {
+          logs: {
+            logtype: "reward",
+            message: `25 moles awarded for bonus level on ${new Date().toLocaleString()}`,
+          },
+        },
+      })
+    else
+      await guild.update({
+        $push: {
+          superpowers:
+            powers[
+              (power as "saitama") ||
+                "tsunade" ||
+                "luffy" ||
+                "l_lawliet" ||
+                "trafalgar_d_law"
+            ],
+          logs: {
+            logtype: "reward",
+            message: `Superpower ${power} awarded for bonus level on ${new Date().toLocaleString()}`,
+          },
+        },
+        $set: { bonusActive: false },
+      })
+
+    return res.status(200).send({ message: "Reward Credited" })
+  } catch (err) {
+    console.log({ award: err })
+    return res.status(500).send(err)
+  }
+}
+
+export const skip: controller = async (req, res) => {
+  if (!toBool(process.env.GAME_ACTIVE))
+    return res.status(403).send({ message: "The Game Has Not Started Yet." })
+
+  const name = ((req.body.name as string) || "").trim()
+  try {
+    const guild = await Guild.findOne({ guildName: name })
+    if (!guild)
+      return res.status(404).send({
+        message: "Guild Not Found.\nPlease Enter Correct Guild Name.",
+      })
+
+    if (!guild.bonusActive)
+      return res.status(400).send({ message: "Not On Bonus Level" })
+
+    await guild.update({
+      $set: {
+        bonusActive: false,
+      },
+      $push: {
+        logs: {
+          type: "skip",
+          message: `Bonus Level Skipped on ${new Date().toLocaleString()}`,
+        },
+      },
+    })
+
+    return res.status(200).send({
+      message: `Bonus Level Skipped `,
+    })
+  } catch (err) {
+    console.log({ skip: err })
     return res.status(500).send(err)
   }
 }

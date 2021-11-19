@@ -1,6 +1,6 @@
 import Express from "express"
 import { config as envConfig } from "dotenv"
-import http = require("http")
+import http from "http"
 import cookie from "cookie"
 
 import ExpressConfig from "./Config/Express.config"

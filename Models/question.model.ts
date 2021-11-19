@@ -2,23 +2,40 @@ import { Document, model, Schema } from "mongoose"
 import bcrypt from "bcrypt"
 
 export type questionI = {
-  all: {
+  name: string
+  questions: {
     qno: number
-    questions: {
+    sets: {
       question: string
+      drive?: string
+      image?: string
       id: string
       answer: string
+      type: "text" | "image" | "text-drive" | "download" | "search"
     }[]
   }[]
 }
 
 const QuestionSchema = new Schema<questionI>(
   {
-    all: {
+    name: {
+      type: String,
+      required: true,
+    },
+    questions: {
       type: [
         {
           qno: Number,
-          questions: [{ question: String, id: String, answer: String }],
+          sets: [
+            {
+              question: String,
+              drive: String,
+              image: String,
+              id: String,
+              answer: String,
+              type: String,
+            },
+          ],
         },
       ],
       required: true,

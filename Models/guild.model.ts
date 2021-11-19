@@ -15,6 +15,7 @@ export type GuildI = {
   moles: number
   hints: boolean[]
   superpowers: { name: string; info: string }[]
+  usedPowers: { name: string }[]
   logs: { logtype: string; message: string }[]
   questions: { id: string }[]
   questionNo: number
@@ -22,6 +23,9 @@ export type GuildI = {
   password: string
   leader: personI
   members: personI[]
+  completed: boolean
+  bonusLevel: boolean[]
+  bonusActive: boolean
 }
 
 const MemberSchema = new Schema<personI>({
@@ -57,6 +61,12 @@ const GuildSchema = new Schema<GuildI>(
       default: [],
       _id: false,
     },
+    usedPowers: {
+      type: [{ name: String }],
+      default: [],
+      _id: false,
+    },
+    completed: { type: Boolean, default: false },
     allowed: {
       type: Boolean,
       default: true,
@@ -71,6 +81,9 @@ const GuildSchema = new Schema<GuildI>(
       required: true,
       _id: false,
     },
+    bonusLevel: { type: [Boolean], default: [true, true, true, true] },
+    bonusActive: { type: Boolean, default: false },
+
     questionNo: {
       type: Number,
       default: 1,

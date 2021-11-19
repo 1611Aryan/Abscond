@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@socket.io/pm2": "^5.1.0",
     "bcrypt": "^5.0.1",
     "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
