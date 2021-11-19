@@ -16,6 +16,7 @@ import Game from "../Components/Dashboard/Game"
 import { useSocket } from "../Context/socket.provider"
 import Countdown from "../Components/Dashboard/Countdown"
 import randomImage from "../Util/images"
+import Completed from "../Components/Dashboard/Complted"
 
 const Dashboard = () => {
   const { guild } = useSelector(selectGuild)
@@ -76,14 +77,15 @@ const Dashboard = () => {
       </picture>
 
       <Profile guild={guild} />
-      {active ? <Game /> : <Countdown />}
+      {guild.completed ? <Completed /> : active ? <Game /> : <Countdown />}
     </StyledDashboard>
   )
 }
 
 const StyledDashboard = styled.main`
   width: 100%;
-  height: 200vh;
+  min-height: 200vh;
+  max-height: 220vh;
   overflow: hidden;
 
   position: relative;

@@ -17,6 +17,12 @@ const Menu: React.FC<{
           Search Guild
         </li>
         <li
+          className={menuOption === "buySuperpower" ? "active" : ""}
+          onClick={() => selectOption("buySuperpower")}
+        >
+          Buy Superpower
+        </li>
+        <li
           className={menuOption === "hint" ? "active" : ""}
           onClick={() => selectOption("hint")}
         >
@@ -33,6 +39,18 @@ const Menu: React.FC<{
           onClick={() => selectOption("trade")}
         >
           Trade
+        </li>
+        <li
+          className={menuOption === "bonus" ? "active" : ""}
+          onClick={() => selectOption("bonus")}
+        >
+          Bonus Level
+        </li>{" "}
+        <li
+          className={menuOption === "skip" ? "active" : ""}
+          onClick={() => selectOption("skip")}
+        >
+          Skip Bonus Level
         </li>
       </ul>
     </StyledMenu>

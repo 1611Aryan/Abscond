@@ -6,8 +6,18 @@ import Nav from "../Components/ControlPanel/Nav"
 import Guilds from "../Components/ControlPanel/Guilds"
 import Trade from "../Components/ControlPanel/Trade"
 import Superpower from "../Components/ControlPanel/Superpower"
+import BuySuperpower from "../Components/ControlPanel/BuySuperpower"
+import BonusLevel from "../Components/ControlPanel/BonusLevel"
+import Skip from "../Components/ControlPanel/Skip"
 
-export type menuOption = "guilds" | "hint" | "superpower" | "trade"
+export type menuOption =
+  | "guilds"
+  | "hint"
+  | "superpower"
+  | "trade"
+  | "buySuperpower"
+  | "bonus"
+  | "skip"
 
 const AdminDashboard = () => {
   const [menuOption, setMenuOption] = useState<menuOption>("guilds")
@@ -22,6 +32,12 @@ const AdminDashboard = () => {
         <Hint />
       ) : menuOption === "superpower" ? (
         <Superpower />
+      ) : menuOption === "buySuperpower" ? (
+        <BuySuperpower />
+      ) : menuOption === "bonus" ? (
+        <BonusLevel />
+      ) : menuOption === "skip" ? (
+        <Skip />
       ) : (
         <Trade />
       )}

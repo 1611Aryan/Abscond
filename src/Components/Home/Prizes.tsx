@@ -14,22 +14,20 @@ function Prizes() {
       <div className="color1"></div>
       <h2>Prizes</h2>
 
-      <h4>To Be Revealed Soon!!!!</h4>
-
-      {/* <div className="prize">
+      <div className="prize">
         <div className="head">
           <h3>FIRST</h3>
           <div className="money">&#8377;5000</div>
         </div>
         <div className="head">
           <h3>SECOND</h3>
-          <div className="money">&#8377;3000</div>
+          <div className="money">Gift Set By Papernest</div>
         </div>
         <div className="head">
           <h3>THIRD</h3>
-          <div className="money">&#8377;1500</div>
+          <div className="money">Coupons By Build Geeks</div>
         </div>
-      </div> */}
+      </div>
     </StyledPrizes>
   )
 }
@@ -126,7 +124,7 @@ const StyledPrizes = styled.div`
         justify-content: center;
         align-items: center;
         border-radius: 10px;
-        font-size: clamp(1rem, 2vw, 1.75rem);
+        font-size: clamp(0.8rem, 2vw, 1.75rem);
       }
     }
   }

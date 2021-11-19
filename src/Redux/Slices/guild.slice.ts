@@ -11,6 +11,7 @@ export type guild = {
   questionNo: number
   leader: { name: string }
   members: { name: string }[]
+  completed: boolean
 }
 
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
       name: "",
     },
     members: [],
+    completed: false,
   } as guild,
 }
 
@@ -55,6 +57,12 @@ export const guildSlice = createSlice({
         power => power.name !== action.payload.name
       )
     },
+    nextQuestion: state => {
+      state.guild.questionNo += 1
+    },
+    complete: state => {
+      state.guild.completed = true
+    },
 
     resetGuild: state => {
       state.guild = initialState.guild
@@ -69,6 +77,8 @@ export const {
   useHint,
   addSuperpower,
   removeSuperpower,
+  nextQuestion,
+  complete,
 } = guildSlice.actions
 
 export const selectGuild = (state: RootState) => state.guild

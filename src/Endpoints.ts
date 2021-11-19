@@ -40,6 +40,16 @@ export const logoutEndpoint: Endpoint = {
   method: Method.GET,
 }
 
+export const getQuestion: Endpoint = {
+  url: baseUrl + "/guild/getQuestion",
+  method: Method.GET,
+}
+
+export const verifyAnswer: Endpoint = {
+  url: baseUrl + "/guild/answer",
+  method: Method.POST,
+}
+
 export const adminLogin: Endpoint = {
   url: baseUrl + "/admin/login",
   method: Method.POST,
@@ -62,6 +72,21 @@ export const BuyHint: Endpoint = {
 
 export const UseSuperpowers: Endpoint = {
   url: baseUrl + "/admin/useSuperpower",
+  method: Method.POST,
+}
+
+export const buySuperpowers: Endpoint = {
+  url: baseUrl + "/admin/buyPower",
+  method: Method.POST,
+}
+
+export const bonusLevel: Endpoint = {
+  url: baseUrl + "/admin/bonusLevel",
+  method: Method.POST,
+}
+
+export const skipEndpoint: Endpoint = {
+  url: baseUrl + "/admin/skip",
   method: Method.POST,
 }
 
