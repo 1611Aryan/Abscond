@@ -11,6 +11,7 @@ import AdminSignup from "./Components/Admin/Signup"
 
 import AdminControlPanel from "./Pages/AdminControlPanel"
 import Leaderboard from "./Pages/Leaderboard"
+import Bonus from "./Pages/Bonusss"
 
 const routes = (loggedIn: boolean, admin: boolean) => [
   {
@@ -35,6 +36,10 @@ const routes = (loggedIn: boolean, admin: boolean) => [
   {
     path: "leaderboard",
     element: loggedIn ? <Navigate to="/dashboard" /> : <Leaderboard />,
+  },
+  {
+    path: "bonusss",
+    element: loggedIn ? <Navigate to="/dashboard" /> : <Bonus />,
   },
   {
     path: "dashboard",

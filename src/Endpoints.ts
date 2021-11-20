@@ -95,6 +95,11 @@ export const trade: Endpoint = {
   method: Method.POST,
 }
 
+export const award: Endpoint = {
+  url: baseUrl + "/admin/award",
+  method: Method.POST,
+}
+
 export const leaderboard: Endpoint = {
   url: baseUrl + "/leaderboard",
   method: Method.GET,
