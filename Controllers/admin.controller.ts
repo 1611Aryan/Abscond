@@ -568,11 +568,6 @@ export const award: controller = async (req, res) => {
   const option = ((req.body.option as string) || "").trim().toLowerCase()
   const power = ((req.body.power as string) || "").trim().toLowerCase()
 
-  if (!isPower(power))
-    return res
-      .status(400)
-      .send({ message: "No Such Power Exists.\nCheck Your Spellings" })
-
   if (option !== "moles" && option !== "superpowers")
     return res.status(400).send({ message: "Choose a valid option" })
 
@@ -599,6 +594,10 @@ export const award: controller = async (req, res) => {
           },
         },
       })
+    else if (!isPower(power))
+      return res
+        .status(400)
+        .send({ message: "No Such Power Exists.\nCheck Your Spellings" })
     else
       await guild.update({
         $push: {
