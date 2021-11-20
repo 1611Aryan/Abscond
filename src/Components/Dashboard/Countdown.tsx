@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 
 const Countdown: React.FC = () => {
-  const countDownDate = new Date("Nov 20, 2021 22:00:00").getTime()
+  const countDownDate = new Date("Nov 20, 2021 21:00:00").getTime()
 
   const [days, setDays] = useState(0)
   const [minutes, setMinutes] = useState(0)

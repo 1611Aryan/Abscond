@@ -18,7 +18,7 @@ const BuySuperpower = () => {
         buySuperpowers.url,
         input
       )
-      console.log(res.data)
+
       setError("")
       setSuccess(res.data.message)
     } catch (error: any) {

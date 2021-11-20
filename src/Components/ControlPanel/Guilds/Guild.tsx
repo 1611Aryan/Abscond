@@ -21,7 +21,7 @@ const Guild: React.FC<{ guild: guild }> = ({ guild }) => {
       </div>
       <div className="infoContainer">
         <div>
-          <h4>Score: </h4>
+          <h4>Moles: </h4>
           {guild.moles}
         </div>
         <div>

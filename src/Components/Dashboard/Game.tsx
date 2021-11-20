@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
-import { BsCoin } from "react-icons/bs"
-import { GiLightningSaber } from "react-icons/gi"
+import { BsCoin, BsInfoCircleFill } from "react-icons/bs"
+
 import { useDispatch, useSelector } from "react-redux"
 import {
-  changeMoles,
   complete,
   nextQuestion,
   selectGuild,
 } from "../../Redux/Slices/guild.slice"
 
 import { AppDispatch } from "../../Redux/store"
-import { useSocket } from "../../Context/socket.provider"
+
 import axios from "axios"
 import { getQuestion, verifyAnswer } from "../../Endpoints"
 import SpinnerLoader from "../Loaders/spinner"
@@ -29,17 +28,11 @@ const Game = () => {
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [modal, setModal] = useState(false)
 
-  const { socket } = useSocket()
   const dispatch = useDispatch<AppDispatch>()
 
   const [question, setQuestion] = useState<question>()
-
-  useEffect(() => {
-    socket?.on("changeMoles", (amount: number) => dispatch(changeMoles(amount)))
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const reqQuestion = async () => {
     try {
@@ -50,8 +43,6 @@ const Game = () => {
         }
       )
 
-      console.log(res.data.question.type)
-
       setQuestion(res.data.question)
     } catch (err) {
       console.log(err)
@@ -61,6 +52,10 @@ const Game = () => {
   useEffect(() => {
     reqQuestion()
   }, [])
+
+  const openModal = () => setModal(true)
+
+  const closeModal = () => setModal(false)
 
   const change = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setInput(e.target.value)
@@ -99,6 +94,11 @@ const Game = () => {
   return (
     <StyledGame>
       {loading && <SpinnerLoader />}
+      {modal && (
+        <section onClick={closeModal} className="modal">
+          <img src={question?.image} alt="" />
+        </section>
+      )}
       <h1>Battle Time</h1>
 
       <div className="stats">
@@ -106,16 +106,28 @@ const Game = () => {
           <BsCoin />
           <span>Moles: {guild.moles}</span>
         </h3>
-        <h3>
-          <GiLightningSaber />
+        <h3 className="powers">
+          <BsInfoCircleFill />
           <span>Superpowers: {guild.superpowers.length}</span>
+
+          <ul>
+            {guild.superpowers.map((power, index) => (
+              <li key={index}>
+                <span>
+                  {power.name}&nbsp;
+                  {"->"}
+                </span>
+                <span>{power.info}</span>
+              </li>
+            ))}
+          </ul>
         </h3>
       </div>
       <div className="rulebook">
         <h4>Question No. {guild.questionNo}</h4>
         <h4>
           <a
-            href="https://drive.google.com/file/d/1rCx2zu5C8QD1v6WCvS1zY2tG0kkSpLLy/view"
+            href="https://www.canva.com/design/DAEr82aAIqQ/lmUamSF2okT4Wfl9C9gdCA/view?utm_content=DAEr82aAIqQ&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink#1"
             target="_blank"
             rel="noReferrer"
           >
@@ -144,7 +156,7 @@ const Game = () => {
 
           {question?.type === "image" && (
             <div className="image">
-              <img src={question.image} alt="" />{" "}
+              <img onClick={openModal} src={question.image} alt="" />{" "}
             </div>
           )}
 
@@ -160,7 +172,11 @@ const Game = () => {
 
           {question?.type === "search" && (
             <div className="search">
-              <img src={question.image} alt={question.drive} />
+              <img
+                onClick={openModal}
+                src={question.image}
+                alt={question.drive}
+              />
             </div>
           )}
         </div>
@@ -185,6 +201,26 @@ const StyledGame = styled.section`
   flex-direction: column;
 
   color: #000d;
+
+  .modal {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+
+    display: grid;
+    place-items: center;
+
+    img {
+      max-width: 80vw;
+      max-height: 80vh;
+      object-fit: cover;
+    }
+  }
 
   h1 {
     display: inline;
@@ -213,6 +249,46 @@ const StyledGame = styled.section`
     }
   }
 
+  .powers {
+    position: relative;
+    ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 25vw;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+
+      padding: clamp(0.5rem, 1.5vw, 1rem);
+
+      border-radius: 10px 0px 10px 10px;
+
+      li {
+        font-size: clamp(0.75rem, 1.5vw, 1.1rem);
+        font-weight: 300;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        span {
+          flex: 1;
+        }
+
+        + li {
+          margin-top: clamp(0.7rem, 1vw, 1rem);
+        }
+      }
+    }
+
+    &:hover {
+      ul {
+        display: block;
+      }
+    }
+  }
+
   h4 {
     font-size: clamp(0.9rem, 2vw, 1.35rem);
     font-weight: 400;
@@ -228,13 +304,6 @@ const StyledGame = styled.section`
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    h3 {
-      transition: all 200ms;
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
   }
 
   .rulebook {
@@ -323,6 +392,13 @@ const StyledGame = styled.section`
 
   @media only screen and (max-width: 450px) {
     justify-content: space-evenly;
+
+    .powers {
+      ul {
+        width: 65vw;
+      }
+    }
+
     main {
       .question {
         width: 100%;

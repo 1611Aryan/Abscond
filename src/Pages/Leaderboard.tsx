@@ -15,7 +15,6 @@ const Leaderboard = () => {
         const res = await axios[leaderboard.method]<{
           guilds: { guildName: string; moles: number; superpowers: {}[] }[]
         }>(leaderboard.url)
-        console.log(res.data.guilds)
 
         setGuilds(
           res.data.guilds.map(guild => ({

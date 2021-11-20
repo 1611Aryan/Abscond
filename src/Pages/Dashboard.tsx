@@ -13,7 +13,7 @@ import { profileEndpoint } from "../Endpoints"
 import Profile from "../Components/Dashboard/Profile"
 import LogoLoader from "../Components/Loaders/logo"
 import Game from "../Components/Dashboard/Game"
-import { useSocket } from "../Context/socket.provider"
+
 import Countdown from "../Components/Dashboard/Countdown"
 import randomImage from "../Util/images"
 import Completed from "../Components/Dashboard/Complted"
@@ -24,7 +24,6 @@ const Dashboard = () => {
   const [active, setActive] = useState(false)
 
   const dispatch = useDispatch<AppDispatch>()
-  const { socket } = useSocket()
 
   useEffect(() => {
     ;(async () => {
@@ -56,16 +55,6 @@ const Dashboard = () => {
 
     document.title = "ABSCOND • DASHBOARD"
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  //?Socket Setup
-  useEffect(() => {
-    socket?.connect()
-
-    return () => {
-      socket?.close()
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

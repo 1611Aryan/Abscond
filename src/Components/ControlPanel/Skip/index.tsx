@@ -18,7 +18,7 @@ const Skip = () => {
         skipEndpoint.url,
         { name: input }
       )
-      console.log(res.data)
+
       setError("")
       setSuccess(res.data.message)
     } catch (error: any) {
