@@ -25,6 +25,7 @@ export type GuildI = {
   members: personI[]
   completed: boolean
   bonusLevel: boolean[]
+  bonusHints: boolean[]
   bonusActive: boolean
 }
 
@@ -82,6 +83,7 @@ const GuildSchema = new Schema<GuildI>(
       _id: false,
     },
     bonusLevel: { type: [Boolean], default: [true, true, true, true] },
+    bonusHints: { type: [Boolean], default: [true, true, true, true] },
     bonusActive: { type: Boolean, default: false },
 
     questionNo: {

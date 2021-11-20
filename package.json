@@ -4,9 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@socket.io/pm2": "^5.1.0",
     "bcrypt": "^5.0.1",
-    "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -17,7 +15,7 @@
     "morgan": "^1.10.0",
     "nanoid": "^3.1.30",
     "nodemailer": "^6.7.0",
-    "socket.io": "^4.3.2",
+    "pm2": "^5.1.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
   },
@@ -32,7 +30,7 @@
     "ts-node-dev": "^1.1.8"
   },
   "scripts": {
-    "start": "cd build && node index.js",
+    "start": "pm2-runtime start ecosystem.config.js --env production",
     "dev": "tsnd --respawn index.ts",
     "buildMedia": "cd build && mkdir Media && cd .. &&  cp Media/*.png build/Media && cp Media/*.webp build/Media",
     "build": "yarn tsc -p . && yarn buildMedia "

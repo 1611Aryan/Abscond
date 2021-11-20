@@ -69,7 +69,10 @@ export const guildByName: controller = async (req, res) => {
 export const updateGuild: controller = async (req, res) => {
   try {
     console.log("ran")
-    await Guild.updateMany({}, { $set: { bonusActive: false } })
+    await Guild.updateMany(
+      {},
+      { $set: { bonusHints: [true, true, true, true] } }
+    )
   } catch (err) {
     console.log(err)
   }
@@ -89,8 +92,34 @@ export const buyHint: controller = async (req, res) => {
 
     const questionNo = guild.questionNo
 
-    console.log({ questionNo })
-    if (!guild.hints[questionNo - 1])
+    if (guild.bonusActive && guild.bonusHints[(questionNo - 1) / 3 - 1]) {
+      await Guild.updateOne(
+        { _id: guild._id },
+        {
+          $set: {
+            [`bonusHints.${(questionNo - 1) / 3 - 1}`]: false,
+          },
+          $inc: { moles: -10 },
+          $push: {
+            logs: {
+              logType: "bonus hint",
+              message: `Bonus Hint Purchased for Bonus question ${
+                (questionNo - 1) / 3
+              }  on ${new Date().toLocaleString()}`,
+            },
+          },
+        }
+      )
+
+      return res
+        .status(200)
+        .send({ message: "Hint Purchased.\nYou can now provide the hint" })
+    }
+
+    if (
+      !guild.hints[questionNo - 1] ||
+      (guild.bonusActive && !guild.bonusHints[(questionNo - 1) / 3 - 1])
+    )
       return res.status(403).send({ message: "Hint Already Used." })
 
     await Guild.updateOne(
@@ -158,7 +187,7 @@ export const buySuperpower: controller = async (req, res) => {
         .status(403)
         .send({ message: "Can't Use The Power On Last Question" })
 
-    if (guild.questionNo < 4)
+    if (guild.questionNo < 1)
       return res
         .status(403)
         .send({ message: "Superpowers can only be bought after level 3" })
@@ -181,8 +210,8 @@ export const buySuperpower: controller = async (req, res) => {
             (power as "saitama") ||
               "tsunade" ||
               "luffy" ||
-              "l_lawliet" ||
-              "trafalgar_d_law"
+              "l lawliet" ||
+              "trafalgar d law"
           ],
         logs: {
           logtype: "superpower",
@@ -407,8 +436,8 @@ export const trade: controller = async (req, res) => {
     (req.body.power.toLowerCase().trim() as "saitama") ||
     "tsunade" ||
     "luffy" ||
-    "l_lawliet" ||
-    "trafalgar_d_law"
+    "l lawliet" ||
+    "trafalgar d law"
 
   try {
     const guild1 = await Guild.findOne({ guildName: name1 }).lean()
@@ -578,8 +607,8 @@ export const award: controller = async (req, res) => {
               (power as "saitama") ||
                 "tsunade" ||
                 "luffy" ||
-                "l_lawliet" ||
-                "trafalgar_d_law"
+                "l lawliet" ||
+                "trafalgar d law"
             ],
           logs: {
             logtype: "reward",

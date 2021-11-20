@@ -29,7 +29,7 @@ router.post("/buyPower", buySuperpower)
 
 router.post("/trade", trade)
 
-// router.get("/update", updateGuild)
+router.get("/update", updateGuild)
 
 router.post("/bonusLevel", bonusLevel)
 
